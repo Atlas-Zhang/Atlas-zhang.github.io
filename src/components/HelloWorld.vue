@@ -14,10 +14,10 @@ defineProps<{
 </script>
 
 <template>
-  <div>
+  <div class=" flex flex-col justify-between h-1/2">
   <div class="greetings mt-10">
     <img alt="Vue logo" class="logo" src="@/assets/logo.jpg"/>
-    <h1 class="green">{{ msg }}</h1>
+    <h1 class="green mt-10 hover:text-3xl hover:mt-12 hover:font-bold transition-all transform" >{{ msg }}</h1>
   </div>
 
   <div class="desc text-center">
@@ -34,6 +34,7 @@ defineProps<{
 .greetings{
   padding: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -50,7 +51,7 @@ h1 {
 
 
 .desc{
-  margin-top: 100px;
+  margin-top: 20%px;
   padding: 0 10%;
   color: rgba(159, 159, 159,0.7)
 }

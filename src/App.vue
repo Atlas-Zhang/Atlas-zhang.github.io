@@ -16,11 +16,11 @@ onMounted(() => {
   currentPath.value = router.currentRoute.value.path
   const  appDoc = document.getElementById('app')
     if(appDoc){
-      // if('/' === currentPath.value){
+      if('/' === currentPath.value){
           appDoc.classList.remove('home-class')
-      // }else{
-      //   appDoc.classList.add('home-class')
-      // }
+      }else{
+        appDoc.classList.add('home-class')
+      }
     }
 })
 
@@ -31,23 +31,22 @@ watch(() => router.currentRoute.value.path,
     currentPath.value = n
     const  appDoc = document.getElementById('app')
     if(appDoc){
-      // if('/' === currentPath.value){
+      if('/' === currentPath.value){
           appDoc.classList.remove('home-class')
-      // }else{
-      //   appDoc.classList.add('home-class')
-      // }
+      }else{
+        appDoc.classList.add('home-class')
+      }
     }
+    
   }
 )
 </script>
 
 <template>
-  <!-- <header v-if="currentPath !== '/'">
+  <header v-if="currentPath !== '/'" class=" bg-black h-full">
     <HelloWorld :msg="test" />
-    <div class="wrapper">
-      <router-switch-view></router-switch-view>
-    </div>
-  </header> -->
+    <router-switch-view></router-switch-view>
+  </header>
   <RouterView/>
 </template>
 <style scoped>
@@ -58,13 +57,11 @@ header {
 }
 
 .logo {
-
   margin: 0 auto 2rem;
 }
 
 nav {
   width: 100%;
-
   text-align: center;
   margin-top: 4rem;
 }
@@ -95,11 +92,6 @@ nav a:first-of-type {
   }
 
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 
   nav {
 

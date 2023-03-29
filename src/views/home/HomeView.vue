@@ -1,90 +1,32 @@
-
-
 <script setup>
+import {ref} from 'vue'
+
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const data = ref({
+  desc: '立志做一个有用的工具箱 \n 还在不断完善中'
+})
+
+
 
 </script>
 
 <template>
-  <div class="relative flex min-h-screen flex-col justify-center overflow-hidden">
-    <img src="@/assets/beams.jpg" class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"/>
-    <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-0 ring-gray-900/5
-     sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-     <div class="mx-auto max-w-md">
-        <div class="divide-y divide-gray-300/50">
-          <div class="space-y-5 py-8 text-base leading-7 text-gray-600">
-            <p>An advanced online playground for Tailwind CSS, including support for 
-              things like:</p>
-             <ul class="space-y-4">
-               <li class="flex items-center">
-                <svg class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 
-                stroke-2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="11"/>
-                  <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
-               </svg>
-                <p class="ml-4">
-                  Customizing your
-                  <code class="text-sm font-bold text-gray-900">tailwind.config.js</code>
-                  file
-                </p>
-               </li>
-               <li class="flex items-center">
-                <svg class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 
-                stroke-2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="11"/>
-                  <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
-               </svg>
-                <p class="ml-4">
-                  Extracting classes  with
-                  <code class="text-sm font-bold text-gray-900">@apply</code>
-                </p>
-               </li>
-               <li class="flex items-center">
-                <svg class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 
-                stroke-2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="11"/>
-                  <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
-               </svg>
-                <p class="ml-4">
-                  Extracting classes  with
-                  <code class="text-sm font-bold text-gray-900">@apply</code>
-                </p>
-               </li>
-               <li class="flex items-center">
-                <svg class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 
-                stroke-2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="11"/>
-                  <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
-               </svg>
-                <p class="ml-4">
-                  Extracting classes  with
-                  <code class="text-sm font-bold text-gray-900">@apply</code>
-                </p>
-               </li>
-               <li class="flex items-center">
-                <svg class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 
-                stroke-2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="11"/>
-                  <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
-               </svg>
-                <p class="ml-4">
-                  Extracting classes  with instant preview
-                </p>
-               </li>
-             </ul> 
-             <p>Perfect for learning how the framework works, prototyping a new idea,
-              or creating a demo to share online
-             </p>
-             
-          </div>
-          <div class="pt-8 text-base leading-7 ">
-          <p class="text-gray-900 font-bold">Want to dig deeper into Tailwind?</p>
-          <p>
-            <a href="https://tailwindcss.com/docs" class="text-sky-500 hover:text-sky-600 font-bold">Read the docs &rarr;</a>
-          </p>
-        </div>
-        </div>
-     </div>
-    </div>
-</div>
-</template>
+<div class=" bg-black p-3 h-full text-white flex flex-col justify-start items-center">
 
+  <!--头像描述 -->
+  <div class=" h-1/2 flex flex-col items-center pt-20">
+    <img src="@/assets/logo.jpg" class=" w-20 h-auto rounded-md hover:translate-x-1 hover:translate-y-1 hover:scale-110 transition-all transform"/>
+    <h2 class="green font-mono  text-2xl mt-10 font-normal hover:font-bold hover:text-3xl transition-all transform"> OPEN TOOLS</h2>
+    <span class=" mt-28 text-gray-400 text-xl tracking-wider whitespace-pre-line text-center">{{ data.desc}}</span>
+  </div>
+
+  <div class="footer flex justify-between space-x-3 items-center h-full p-1 w-full sm:w-full md:w-1/2 lg:w-1/3 sm:p-5">
+    <a @click="() => {router.push('/')}">首页</a>
+    <a @click="() => {router.push('/excel-process')}">EXCEL模块</a>
+    <a @click="() => {console.log('测试121')}">展览模块</a>
+  </div>
+
+</div>
+
+</template>

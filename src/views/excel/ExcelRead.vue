@@ -154,7 +154,7 @@ function tableNameChange(){
             :http-request="uploadData">
             <el-icon class="el-icon--upload"><upload-filled /></el-icon>
             <div class="el-upload__text">
-                Drop file here or <em>click to upload</em>
+                将文件拖拽至该位置 <em>点击上传</em>
             </div>
             <template #tip>
             <div class="el-upload__tip">
