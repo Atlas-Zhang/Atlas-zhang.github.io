@@ -12,7 +12,7 @@ const data = ref({
 </script>
 
 <template>
-<div class=" bg-black p-3 h-full text-white flex flex-col justify-start items-center">
+<div class=" bg-black p-3 text-white flex flex-col justify-start items-center h-screen">
 
   <!--头像描述 -->
   <div class=" h-1/2 flex flex-col items-center pt-20">
@@ -24,7 +24,7 @@ const data = ref({
   <div class="footer flex justify-between space-x-3 items-center h-full p-1 w-full sm:w-full md:w-1/2 lg:w-1/3 sm:p-5">
     <a @click="() => {router.push('/')}">首页</a>
     <a @click="() => {router.push('/excel-process')}">EXCEL模块</a>
-    <a @click="() => {console.log('测试121')}">展览模块</a>
+    <a @click="() => {router.push('/ai-tools/list')}">AI展览</a>
   </div>
 
 </div>

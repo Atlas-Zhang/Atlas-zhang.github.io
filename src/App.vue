@@ -19,7 +19,7 @@ onMounted(() => {
       if('/' === currentPath.value){
           appDoc.classList.remove('home-class')
       }else{
-        appDoc.classList.add('home-class')
+        //appDoc.classList.add('home-class')
       }
     }
 })
@@ -34,7 +34,7 @@ watch(() => router.currentRoute.value.path,
       if('/' === currentPath.value){
           appDoc.classList.remove('home-class')
       }else{
-        appDoc.classList.add('home-class')
+       // appDoc.classList.add('home-class')
       }
     }
     
@@ -43,10 +43,10 @@ watch(() => router.currentRoute.value.path,
 </script>
 
 <template>
-  <header v-if="currentPath !== '/'" class=" bg-black h-full">
+  <!-- <header v-if="currentPath !== '/'" class=" bg-black h-full">
     <HelloWorld :msg="test" />
     <router-switch-view></router-switch-view>
-  </header>
+  </header> -->
   <RouterView/>
 </template>
 <style scoped>

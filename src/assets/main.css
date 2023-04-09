@@ -26,19 +26,23 @@ a,
     /* place-items: center; */
     
   }
-  #app {
-    height: 100vh;
-    /* grid-template-columns: 1.5fr 6fr; */
-    
-  }
 
-  #app.home-class{
-    height: 100vh;
+
+  /* #app.home-class{
+    height: 100%;
     display: grid;
     grid-template-columns: 1.5fr 6fr;
-  }
+  } */
 }
 
+
+#app {
+
+  height: 100%;
+
+  /* grid-template-columns: 1.5fr 6fr; */
+  
+}
 
 
 /* app */

@@ -1,6 +1,6 @@
 import { createApp,getCurrentInstance } from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index.js'
 import ElementPlus, { ElMessage } from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
