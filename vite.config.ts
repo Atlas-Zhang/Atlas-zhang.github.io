@@ -10,5 +10,12 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true // 允许在 Less 中使用 JavaScript
+      }
+    }
+  },
 })

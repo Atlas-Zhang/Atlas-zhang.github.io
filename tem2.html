@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>List Page2</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" />
+    <style>
+        .hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="some-class  opacity-100 transition duration-500 ease-in-out bg-red-400">Some content</div>
+    <button id="toggle-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">Toggle</button>
+
+    <script>
+        const element = document.querySelector('.some-class');
+        const toggleBtn = document.getElementById('toggle-btn');
+
+        toggleBtn.addEventListener('click', () => {
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+                setTimeout(() => {
+                    element.classList.remove('opacity-0');
+                    element.classList.add('opacity-100');
+                }, 10);
+            } else {
+                element.classList.remove('opacity-100');
+                element.classList.add('opacity-0');
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                }, 300);
+            }
+        });
+    </script>
+</body>
+
+</html>

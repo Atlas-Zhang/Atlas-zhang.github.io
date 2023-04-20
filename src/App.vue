@@ -1,56 +1,72 @@
 <script setup lang="ts">
-import { ref,onMounted,watch} from 'vue';
-import { useRouter } from "vue-router";
-import { RouterLink, RouterView } from 'vue-router'
-
-import RouterSwitchView from './components/router/RouterSwitchView.vue';
-import  HomeView from '@/views/home/HomeView.vue';
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const test = ref('OPEN TOOL')
 const currentPath = ref('null')
-const router = useRouter();
-
+const router = useRouter()
 
 onMounted(() => {
   currentPath.value = router.currentRoute.value.path
-  const  appDoc = document.getElementById('app')
-    if(appDoc){
-      if('/' === currentPath.value){
-          appDoc.classList.remove('home-class')
-      }else{
-        //appDoc.classList.add('home-class')
-      }
+  const appDoc = document.getElementById('app')
+  if (appDoc) {
+    if ('/' === currentPath.value) {
+      appDoc.classList.remove('home-class')
     }
+    judgeToken()
+  }
 })
 
+function judgeToken() {
+  const tokenObj = localStorage.getItem('wechat-public')
+  const token = JSON.stringify(tokenObj)
+  const timeStampObj = localStorage.getItem('timestamp')
+  const timeStamp = JSON.stringify(timeStampObj)
+  console.log('----------------------token is --------------', token, timeStamp)
+  // 不存在 token，直接报错
+
+  if (tokenObj === null || timeStampObj === null) {
+    if (currentPath.value !== '/') {
+      localStorage.setItem('origin-routine', currentPath.value)
+    }
+    router.push('/login-page')
+    return
+  }
+
+  // Wait for some time...
+  var currentTimestamp = Date.now()
+  var difference = (currentTimestamp - parseInt(timeStamp)) / 1000 / 60 / 60
+  if (difference < 48) {
+    if (currentPath.value !== '/') {
+      localStorage.setItem('origin-routine', currentPath.value)
+    }
+    router.push('/login-page')
+    return
+  }
+}
 
 // 监听
-watch(() => router.currentRoute.value.path,
+watch(
+  () => router.currentRoute.value.path,
   (n, o) => {
     currentPath.value = n
-    const  appDoc = document.getElementById('app')
-    if(appDoc){
-      if('/' === currentPath.value){
-          appDoc.classList.remove('home-class')
-      }else{
-       // appDoc.classList.add('home-class')
+    const appDoc = document.getElementById('app')
+    if (appDoc) {
+      if ('/' === currentPath.value) {
+        appDoc.classList.remove('home-class')
+      } else {
+        // appDoc.classList.add('home-class')
       }
     }
-    
+    judgeToken()
   }
 )
 </script>
 
 <template>
-  <!-- <header v-if="currentPath !== '/'" class=" bg-black h-full">
-    <HelloWorld :msg="test" />
-    <router-switch-view></router-switch-view>
-  </header> -->
-  <RouterView/>
+  <RouterView />
 </template>
 <style scoped>
-
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -91,16 +107,8 @@ nav a:first-of-type {
     /* padding-right: calc(var(--section-gap) / 2); */
   }
 
-
-
   nav {
-
     font-size: 1rem;
-
-
-    
   }
-
 }
-
 </style>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TailwindCSS Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" />
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="/">
+                            <img class="block lg:hidden h-8 w-auto"
+                                src="https://tailwindui.com/img/logos/workflow-mark-on-white.svg" alt="Workflow logo">
+                            <img class="hidden lg:block h-8 w-auto"
+                                src="https://tailwindui.com/img/logos/workflow-mark-on-white.svg" alt="Workflow logo">
+                        </a>
+                    </div>
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="/"
+                            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-no-wrap py-4 px-1 border-b-2 font-medium">Home</a>
+                        <a href="/blog"
+                            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-no-wrap py-4 px-1 border-b-2 font-medium">Blog</a>
+                        <a href="/contact"
+                            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-no-wrap py-4 px-1 border-b-2 font-medium">Contact
+                            Us</a>
+                    </div>
+                </div>
+                <!-- Search Box and Auth Dropdown -->
+                <div class="flex items-center">
+                    <!-- Search Box -->
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="relative rounded-md shadow-sm">
+                            <input
+                                class="form-input py-2 px-3 block w-64 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                type="search" placeholder="Search...">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M9 16a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-1.2a5.8 5.8 0 1 0 0-11.6 5.8 5.8 0 0 0 0 11.6z" />
+                                    <path
+                                        d="M12.6 11.4l2.8 2.8c.2.2.2.5 0 .7-.2.2-.5.2-.7 0l-2.8-2.8a5.5 5.5 0 1 1 .7-.7zM6.5 10a3.5 3.5 0 1 0 7 0 3.5 3.5 0 0 0-7 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Auth Dropdown -->
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="relative flex-shrink-0">
+                            <button
+                                class="bg-white rounded-full flex text-sm focus:outline-none focus:shadow-outline-blue"
+                                id="user-menu" aria-haspopup="true">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/women/82.jpg"
+                                    alt="">
+                            </button>
+                            <!-- Dropdown panel -->
+                            <div
+                                class="origin-top-right absolute right-0 mt-2 w-48 hidden rounded-md shadow-lg user-drop-down">
+                                <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical"
+                                    aria-labelledby="user-menu">
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out"
+                                        role="menuitem">Your Profile</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out"
+                                        role="menuitem">Settings</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out"
+                                        role="menuitem">Sign out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mobile Menu Button -->
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <button
+                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                            id="mobile-menu-btn" aria-label="Main menu" aria-expanded="false">
+                            <svg class="block h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                            <svg class="hidden h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden sm:hidden mobile-drop-down">
+            <div class="px-2 pt-2 pb-3">
+                <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 bg-gray-200">Home</a>
+                <a href="/blog"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Blog</a>
+                <a href="/contact"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Contact
+                    Us</a>
+
+                <!-- Search Box for Mobile Devices -->
+                <div class="mt-4">
+                    <div class="relative flex items-center justify-center">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M11.285 13.673a7.5 7.5 0 1 1 .828.828l3.563 3.563a1 1 0 0 1-1.414 1.414l-3.563-3.563a7.5 7.5 0 0 1-.828-.828zM5.5 10a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0z" />
+                            </svg>
+                        </div>
+                        <input
+                            class="block w-full py-2 pl-10 pr-3 leading-5 rounded-md sm:text-sm placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out"
+                            type="search" placeholder="Search...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Card List -->
+    <section class="py-12 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
+                Latest Articles
+            </h2>
+            <div class="mt-6 grid gap-16 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg mx-auto max-w-md">
+                    <div class="flex items-center justify-between bg-white rounded-t-lg px-4 py-2">
+                        <h5 class="card-title text-xl font-bold">Card Title</h5>
+                        <img src="https://via.placeholder.com/50x50" alt="Logo Image"
+                            class="w-8 h-8 object-cover object-center rounded-full">
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-gray-700 leading-snug">This is some sample text to fill in the body of
+                            the card.</p>
+                        <a href="#"
+                            class="btn btn-primary inline-block mt-2 px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold">Read
+                            More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    // 用户个人中心下拉框
+    const menuBtn = document.querySelector('#user-menu');
+    const userDropDown = document.querySelector('.user-drop-down');
+    menuBtn.addEventListener('click', () => {
+        console.log('buttonis -------------------')
+        if (userDropDown.classList.contains('hidden')) {
+            userDropDown.classList.remove('hidden');
+
+        } else {
+            userDropDown.classList.add('hidden');
+        }
+    });
+
+    // Mobile 菜单栏下拉框
+    const mobileDropdown = document.querySelector('.mobile-drop-down')
+    const mobileBtn = document.querySelector('#mobile-menu-btn')
+
+    mobileBtn.addEventListener('click', () => {
+        console.log('buttonis -------------------')
+        if (mobileDropdown.classList.contains('hidden')) {
+            mobileDropdown.classList.remove('hidden');
+
+        } else {
+            mobileDropdown.classList.add('hidden');
+        }
+    });
+</script>
+
+</html>
