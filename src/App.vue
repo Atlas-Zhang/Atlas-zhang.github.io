@@ -1,6 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import HeadBar from '@/components/layout/HeadBar.vue'
 
 const test = ref('OPEN TOOL')
 const currentPath = ref('null')
@@ -64,51 +65,14 @@ watch(
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <div class="relative h-full">
+      <HeadBar></HeadBar>
+    </div>
+
+    <div class="mt-16 relative">
+      <RouterView />
+    </div>
+  </div>
 </template>
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  text-align: center;
-  margin-top: 4rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    /* display: flex; */
-    /* place-items: center; */
-    /* padding-right: calc(var(--section-gap) / 2); */
-  }
-
-  nav {
-    font-size: 1rem;
-  }
-}
-</style>
+<style scoped></style>

@@ -1,47 +1,51 @@
 <template>
   <div
-    class="flex items-center gap-4 shadow-lg bg-gray-200 rounded-xl p-3 transform transition duration-500 hover:scale-105 hover:shadow-xl w-full sm:w-full md:w-full xl:w-5/12 sm:p-3 xl:p-6"
+    class="card rounded-lg shadow-md w-fill hover:-translate-y-1 hover:translate-x-1 hover:shadow-lg hover:scale-102 transition duration-500 ease-in-out"
   >
-    <img
-      :src="img"
-      alt="Card Image"
-      class="w-20 h-20 rounded-lg object-cover scale-100 hover:scale-110 transform transition duration-500 sm:w-20 sm:h-20 xl:w-40 xl:h-40"
-    />
-    <div class="w-4/5">
-      <h2 class="text-lg font-bold mb-2 text-black">{{ title }}</h2>
-      <a @click="viewDetailItem(id)" class="text-sm text-blue-600 ml-1 cursor-pointer">详情</a>
-      <p class="text-sm text-gray-700 mb-2 truncate">{{ description }}</p>
-      <div class="flex items-center gap-2 mb-2">
-        <span
-          class="px-2 py-1 bg-yellow-300 text-gray-700 rounded-xl text-sm transition duration-500 hover:scale-105 hover:shadow-xl"
-          v-for="(item, index) in tags"
-          :key="index"
+    <div class="flex items-center bg-white rounded-t-lg px-4 py-2 lg:py-4">
+      <img
+        :src="logo"
+        alt="Logo Image"
+        class="w-16 h-16 lg:w-24 lg:h-24 object-cover object-center rounded-full"
+      />
+      <div class="ml-1 lg:ml-5 pl-2">
+        <h5 class="card-title text-xl font-bold text-black mb-0 lg:mb-1">{{ title }}</h5>
+        <p class="card-text text-gray-700 leading-snug font-medium">
+          {{ desc }}
+        </p>
+        <div class="text-md flex space-x-2">
+          <p
+            class="font-bold rounded-sm border-black"
+            v-for="(item, index) in tags"
+            :key="index"
+            :style="{
+              color: item.color
+            }"
+          >
+            {{ item.name }}
+          </p>
+        </div>
+        <a
+          v-if="itemId"
+          @click="
+            () => {
+              router.push(`/ai-tool-item/${itemId}/detail`)
+            }
+          "
+          class="inline-block py-1 rounded-lg hover:bg-gray-200 text-blue-600 cursor-pointer"
+          >查看详情</a
         >
-          {{ item }}
-        </span>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref, defineEmits, defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-const router = useRouter()
 
+const router = useRouter()
 const Props = defineProps({
-  img: {
-    type: String,
-    default: ''
-  },
-  description: {
-    type: String,
-    default: ''
-  },
   title: {
-    type: String,
-    default: ''
-  },
-  subTitle: {
     type: String,
     default: ''
   },
@@ -49,17 +53,28 @@ const Props = defineProps({
     type: Array,
     default: () => []
   },
-  id: {
-    type: Number,
-    default: 0
+  logo: {
+    type: String,
+    default: ''
+  },
+  link: {
+    type: String,
+    default: 'www.baidu.com'
+  },
+  desc: {
+    type: String,
+    default: ''
+  },
+  itemId: {
+    type: String,
+    default: ''
   }
 })
 
-function viewDetailItem(id) {
-  console.log(Props.id)
-
-  console.log('详情 ---------------------', Props.id)
-  router.push(`/ai-tools/${Props.id}/detail`)
-}
+onMounted(() => {
+  console.log('mount is ', Props.itemId)
+  console.log('----------')
+  console.log('tags is ', Props.tags)
+})
 </script>
-<style lang=""></style>
+<style scoped lang="less"></style>
