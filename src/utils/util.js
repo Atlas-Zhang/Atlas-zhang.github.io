@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 export function randomString(len) {
   const len1 = len || 32
   const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz12345678'
@@ -8,6 +10,23 @@ export function randomString(len) {
   }
   return pwd
 }
+
+/**
+ * 生成加密 sign 
+ * @param {} inPutStr 
+ * @returns 
+ */
+export function genEncryStr(inPutStr) {
+  const appKey = "RJDpHpeFmQAU0UENi2XC1vWmyaEdQzXr";
+  const appSecret = "NmVKb56bgeGOaZqf6OLV7HFA4keHhCpp";
+  const hash = CryptoJS.MD5(appKey + inPutStr + appSecret).toString().toUpperCase();
+  return hash
+}
+
+
+
+
+
 
 /**
  * 将对o1 数据 copy 到 o2上

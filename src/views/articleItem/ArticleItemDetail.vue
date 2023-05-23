@@ -1,55 +1,62 @@
 <template>
   <div class="flex min-h-screen flex-col justify-start overflow-hidden bg-gray-50 py-8 lg:py-8">
     <div class="max-w-8xl lg:ml-5">
-      <div class="flex px-4 pt-8 pb-10 lg:px-8 w-auto">
+      <div class="flex px-4 lg:pt-8 lg:pb-10 lg:px-8 w-auto">
         <a
           @click="
             () => {
               router.push('/article/list')
             }
           "
-          class="flex items-center font-semibold text-sm lg:text-2xl w-full leading-6 text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white"
+          class="flex items-center font-semibold text-sm lg:text-2xl w-full leading-6 text-slate-700 dark:text-slate-200 cursor-pointer hover:bg-transparent hover:scale-105"
         >
           <ArrowSmallLeftIcon class="w-10 font-bold mr-2"></ArrowSmallLeftIcon>
-
           返回
         </a>
       </div>
     </div>
-    <article class="prose lg:prose-xl mx-auto">
-      <h1>Garlic bread with cheese: What the science tells us</h1>
+    <article class="prose lg:prose-xl mx-auto p-5">
+      <h1 class="text-4xl lg:text-5xl">{{ itemData.title }}</h1>
       <div class="flex flex-col justify-between text-sm lg:flex-row cursor-pointer">
         <time class="mb-1"
-          ><span class="text-sm mr-2 text-gray-400 font-serif">Create Time:</span>Tuesday, March 28,
-          2023</time
+          ><span class="text-sm mr-2 text-gray-400 font-serif">发表于:</span
+          >{{ itemData.createAt }}</time
         >
-
         <time class="mb-1"
-          ><span class="text-sm mr-2 text-gray-500 font-serif">Update Time:</span>Tuesday, March 28,
-          2023</time
+          ><span class="text-sm mr-2 text-gray-500 font-serif">最近更新:</span
+          >{{ itemData.updateAt }}</time
         >
       </div>
+      <div class="text-sm">
+        <span class="font-500">
+          <span class="text-gray-500 font-serif mr-2">作者:</span>
+          {{ itemData.author }}
+        </span>
+      </div>
+      <div class="flex items-center mt-2">
+        <div class="pl-2">
+          <LikeIcon :is-like="itemData.isLike" @changeLike="changeLikeStatus"> </LikeIcon>
+        </div>
 
-      <p>
-        For years parents have espoused the health benefits of eating garlic bread with cheese to
-        their children, with the food earning such an iconic status in our culture that kids will
-        often dress up as warm, cheesy loaf for Halloween.
-      </p>
-      <p>
-        But a recent study shows that the celebrated appetizer may be linked to a series of rabies
-        cases springing up around the country.
-      </p>
+        <span class="ml-2 text-gray-400 text-xl">{{ itemData.favoriNum }}</span>
+      </div>
+      <div v-html="itemData.htmlContent" class="article-content" v-highlight></div>
       <!-- ... -->
     </article>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, defineProps } from 'vue'
+import { onMounted, ref, defineProps, getCurrentInstance } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { ArrowSmallLeftIcon } from '@heroicons/vue/24/solid'
+import { assignCopy } from '@/utils/util.js'
+import { _likeArticle, _cancelLikeArticle, _queryArticleItem } from '@/api/items/ArticleItemApi.js'
 import { useRouter } from 'vue-router'
+import LikeIcon from '@/components/icons/LikeIcon.vue'
+import { ElLoading } from 'element-plus'
 const router = useRouter()
+const { proxy } = getCurrentInstance()
 const Props = defineProps({
   articleId: {
     type: String,
@@ -60,12 +67,18 @@ const Props = defineProps({
 const resultTags = ref({
   data: []
 })
-
 const itemData = ref({
-  tagId: '',
+  tags: [],
   title: '',
-  totalNum: 0,
-  data: [],
+  author: '',
+  type: '',
+  description: '',
+  content: '',
+  createAt: '',
+  htmlContent: '',
+  updateAt: '',
+  isLike: 'NO',
+  favoriNum: 0,
 
   pageObj: {
     page: 1,
@@ -78,9 +91,50 @@ const itemData = ref({
   }
 })
 
+async function changeLikeStatus(val) {
+  if (val === 'NO') {
+    const result = await _cancelLikeArticle(Props.articleId)
+    if (result) {
+      queryData()
+    }
+    proxy.$message('操作成功', 'success')
+  } else if (val === 'YES') {
+    const result = await _likeArticle(Props.articleId)
+    if (result) {
+      queryData()
+    }
+    proxy.$message('操作成功', 'success')
+  } else {
+    proxy.$message('操作异常', 'error')
+  }
+}
+
+async function queryData() {
+  if (Props.articleId) {
+    const loading = ElLoading.service({
+      lock: true,
+      text: '加载中',
+      background: 'rgba(0, 0, 0, 0.3)'
+    })
+    const result = await _queryArticleItem(Props.articleId)
+    if (result) {
+      itemData.value = assignCopy(result, itemData.value)
+      loading.close()
+    }
+  }
+}
 onMounted(async () => {
   initFlowbite()
-  console.log('-------------------------------///////////////')
-  console.log('articleId is ', Props.articleId)
+
+  queryData()
 })
 </script>
+
+<style scoped lang="less">
+.article-content {
+  /deep/ li p {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+}
+</style>

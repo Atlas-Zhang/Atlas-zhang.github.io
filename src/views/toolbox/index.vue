@@ -4,9 +4,10 @@
     data-drawer-toggle="default-sidebar"
     aria-controls="default-sidebar"
     type="button"
+    id="default-sidebar-btn"
     class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
   >
-    <span class="sr-only">打开侧边栏</span>
+    <span class="sr-only">Open sidebar</span>
     <svg
       class="w-6 h-6"
       aria-hidden="true"
@@ -24,7 +25,7 @@
 
   <aside
     id="default-sidebar"
-    class="absolute top-1 left-0 z-10 w-64 transition-transform -translate-x-full sm:translate-x-0 h-full"
+    class="fixed top-2 mt-16 left-1 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar"
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -45,19 +46,31 @@
           v-for="(item, index) in resultTags.data"
           :key="index"
           :tagId="item.id"
+          :children="item.children ? item.children : null"
           :name="item.name"
           :total-num="item.number"
+          @changeTagId="clickTagIdList"
         >
         </sider-bar-item>
       </ul>
     </div>
   </aside>
 
-  <div class="p-4 sm:ml-64">
-    <div
-      class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 h-screen"
-    >
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-2 lg:gap-2 mb-4"></div>
+  <div class="  sm:absolute sm:left-64 sm:top-0 sm:right-0 sm:bottom-0  ">
+    <div class="p-2 lg:p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 h-screen">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-2 lg:gap-2 mb-4">
+        <ToolBoxCardContentInfo
+          v-for="(item, index) in itemData.data"
+          :key="index"
+          :title="item.title"
+          :desc="item.description"
+          :logo="item.logo"
+          :itemId="item.id"
+          :tags="item.tags"
+          :link="item.link"
+        >
+        </ToolBoxCardContentInfo>
+      </div>
     </div>
   </div>
 </template>
@@ -65,24 +78,71 @@
 import { onMounted, ref } from 'vue'
 import { initFlowbite } from 'flowbite'
 import SiderBarItem from '@/components/layout/SiderBarItem.vue'
+import { _queryToolBoxItems } from '@/api/items/ToolBoxItemApi'
+import { _queryToolBoxTags } from '@/api/items/ToolBoxTagApi'
+import ToolBoxCardContentInfo from '@/components/card/ToolBoxCardContentInfo.vue'
 
 const resultTags = ref({
-  data: [
-    {
-      id: '1',
-      name: '数据转换',
-      number: 1
-    }
-  ]
+  data: []
 })
 
 const itemData = ref({
-  totalNum: 1
+  tagId: '',
+  title: '',
+  totalNum: 0,
+  data: [],
+
+  pageObj: {
+    page: 1,
+    size: 12,
+    total: 0,
+    sort: {
+      direction: 'DESC',
+      order: 'updateAt'
+    }
+  }
 })
 
+function clickTagIdList(tagId) {
+  itemData.value.tagId = tagId
+  const asideBar = document.getElementById('default-sidebar')
+  const defaultSiderBtn = document.getElementById('default-sidebar-btn')
+  if (asideBar.classList.contains('transform-none')) {
+    defaultSiderBtn.click()
+    searchList()
+  } else {
+    searchList()
+  }
+}
+
+async function searchList() {
+  // 加载中
+
+  const result = await _queryToolBoxItems({
+    tagId: itemData.value.tagId,
+    page: itemData.value.pageObj.page,
+    size: itemData.value.pageObj.size,
+    order: itemData.value.pageObj.sort.order,
+    direction: itemData.value.pageObj.sort.direction,
+    title: itemData.value.title
+  })
+  if (result) {
+    itemData.value.data = result.content
+    itemData.value.pageObj.total = result.totalElements
+  }
+}
+
+async function queryAllTags() {
+  const result = await _queryToolBoxTags()
+  if (result) {
+    resultTags.value.data = result
+  }
+}
+
 onMounted(async () => {
-  console.log('index is ---------------------. tool box is ')
   initFlowbite()
+  queryAllTags()
+  searchList()
 })
 </script>
 <style lang=""></style>

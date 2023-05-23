@@ -11,11 +11,27 @@ import {
  */
 export function _validateCode(param) {
     return fetch({
-        url: 'http://139.224.37.187:80/website/submit/code/valid',
+        // test
+        url: 'https://tool.zeroingpython.top/website-api/website/submit/code/valid',
+        // prod 环境
+        // url: `${import.meta.env.VITE_BASE_URL}/submit/code/valid`,
         method: 'post',
         data: param
     });
 }
 
+/**
+ * 校验验证码
+ * @returns {Promise<Response>}
+ */
+export function _queryQcrCode() {
+    return fetch({
+        url: 'https://tool.zeroingpython.top/website-api/website//wx/qrCode/generate',
+
+        // prod 环境
+        // url: `${import.meta.env.VITE_BASE_URL}/wx/qrCode/generate`,
+        method: 'get',
+    });
+}
 
 export default {}

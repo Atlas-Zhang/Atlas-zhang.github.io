@@ -3,7 +3,6 @@ import {
   createWebHistory
 } from 'vue-router'
 import HomeView from '@/views/home/HomeView.vue'
-import ExcelReadVue from '@/views/excel/ExcelRead.vue'
 import NavbarsViewVue from '@/views/example/NavbarsView.vue'
 
 
@@ -11,11 +10,6 @@ const childComponents = [{
     path: '/',
     name: 'home',
     component: HomeView
-  },
-  {
-    path: '/excel-process',
-    name: 'excel-process',
-    component: ExcelReadVue
   },
   {
     path: '/example/navbars-view',
@@ -45,10 +39,41 @@ const childComponents = [{
   {
     path: '/tool-box/list',
     name: 'TOOLBOX-LIST',
-    component: () => import('@/views/toolbox/index.vue')
-
+    component: () => import('@/views/toolbox/index.vue'),
   },
 
+
+  {
+    path: '/pay-plan/list',
+    name: 'PAY_PLAN_LIST',
+    component: () => import('@/views/payPlan/PayPlanList.vue'),
+  },
+  {
+    path: '/tool-box/excel-process',
+    name: 'excel-process',
+    component: () => import('@/views/toolbox/excel/ExcelToSql.vue'),
+  },
+
+
+
+  {
+    path: '/tool-box/text-to-image/stability',
+    name: 'STABILITY_TEXT_IMAGE',
+    component: () => import('@/views/toolbox/textToImage/StabilityTextToImage.vue'),
+  },
+
+  {
+    path: '/tool-box/item/geocode',
+    name: 'TOOLBOX-GEOCODE',
+    component: () => import('@/views/toolbox/geocode/GeoCode.vue'),
+  },
+
+
+  {
+    path: '/tool-box/item/shorten-url',
+    name: 'TOOLBOX_SHORTEN_URL',
+    component: () => import('@/views/toolbox/convert/ShortenLink.vue'),
+  },
 
   {
     path: '/article/:articleId/detail',
@@ -92,6 +117,7 @@ const router = createRouter({
     //   ]
     // },
     ...childComponents
+
 
 
   ]

@@ -22,23 +22,55 @@
           <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
             <a
               @click="() => router.push('/')"
-              class="border-transparent cursor-pointer text-gray-500 hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 font-medium hover:font-bold hover:bg-white"
+              class="cursor-pointer text-gray-500 hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
               >首页</a
             >
             <a
               @click="() => router.push('/ai-tools/list')"
-              class="border-transparent cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 font-medium hover:font-bold hover:bg-white"
+              class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/ai-tools/list'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
               >AI工具</a
             >
             <a
               @click="() => router.push('/article/list')"
-              class="border-transparent cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 font-medium hover:font-bold hover:bg-white"
+              class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/article/list'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
               >文档教程</a
             >
             <a
               @click="() => router.push('/tool-box/list')"
-              class="border-transparent cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 font-medium hover:font-bold hover:bg-white"
+              class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/tool-box/list'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
               >工具箱</a
+            >
+
+
+            <a
+              @click="() => router.push('/pay-plan/list')"
+              class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/pay-plan/list'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
+              >付费计划</a
             >
           </div>
         </div>
@@ -69,9 +101,18 @@
               >
                 <a
                   @click="skipUserInfo"
+                  v-if="userId"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
                   role="menuitem"
                   >个人中心</a
+                >
+
+                <a
+                  @click="loginOut"
+                  v-if="userId"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+                  role="menuitem"
+                  >退出登录</a
                 >
               </div>
             </div>
@@ -83,6 +124,7 @@
             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
             id="mobile-menu-btn"
             aria-label="Main menu"
+            @click="mobileBtnClick"
             aria-expanded="false"
           >
             <svg class="block h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -107,28 +149,81 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div class="hidden sm:hidden mobile-drop-down">
+    <div
+      class="transition-opacity duration-300"
+      :class="[!isMobileShow ? 'hidden opacity-0' : 'opacity-100']"
+    >
       <div class="px-2 pt-2 pb-3">
         <a
-          @click="() => router.push('/')"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 bg-gray-200"
+          @click="
+            () => {
+              mobileClickMenu = 'HOME'
+
+              router.push('/')
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'HOME' ? 'bg-gray-200' : '']"
           >首页</a
         >
         <a
-          @click="() => router.push('/ai-tools/list')"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
+          @click="
+            () => {
+              mobileClickMenu = 'TOOL_LIST'
+              router.push('/ai-tools/list')
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'TOOL_LIST' ? 'bg-gray-200' : '']"
           >AI工具集</a
         >
         <a
-          @click="() => router.push('/article/list')"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
+          @click="
+            () => {
+              mobileClickMenu = 'ARTICLE_LIST'
+              router.push('/article/list')
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'ARTICLE_LIST' ? 'bg-gray-200' : '']"
           >文章教程</a
         >
 
         <a
-          @click="() => router.push('/contact')"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
+          @click="
+            () => {
+              mobileClickMenu = 'TOOL_BOX'
+              router.push('/tool-box/list')
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'TOOL_BOX' ? 'bg-gray-200' : '']"
           >实用工具集</a
+        >
+
+        <a
+          v-if="userId"
+          @click="
+            () => {
+              mobileClickMenu = 'USER_INFO'
+              router.push(`/userInfo/${userId}/detail`)
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'USER_INFO' ? 'bg-gray-200' : '']"
+          >个人中心</a
+        >
+
+        <a
+          v-if="userId"
+          @click="loginOut"
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          >退出登录</a
         >
       </div>
     </div>
@@ -136,10 +231,14 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch, getCurrentInstance } from 'vue'
+const { proxy } = getCurrentInstance()
+const userId = ref('')
 const router = useRouter()
 
 const isUserMenuVisiable = ref(false)
+const mobileClickMenu = ref('')
+const isMobileShow = ref(false)
 
 function handleUserMenuOver() {
   isUserMenuVisiable.value = true
@@ -150,32 +249,32 @@ function handleUserMenuOut() {
 }
 
 function skipUserInfo() {
-  console.log('skip to userInfo is ')
-  router.push('/userInfo/111/detail')
+  router.push(`/userInfo/${userId.value}/detail`)
 }
 
-// function clickBtn() {
-//   const nav = document.querySelector('.origin-top-right')
-//   if (nav.classList.contains('hidden')) {
-//     nav.classList.remove('hidden')
-//     setTimeout(() => {
-//       nav.classList.remove('opacity-0')
-//       nav.classList.add('opacity-100')
-//     }, 300)
-//   } else {
-//     nav.classList.remove('opacity-100')
-//     nav.classList.add('opacity-0')
-//     setTimeout(() => {
-//       nav.classList.add('hidden')
-//     }, 300)
-//   }
-// }
+function mobileBtnClick() {
+  isMobileShow.value = !isMobileShow.value
+}
+
+watch(
+  () => router.currentRoute.value.path,
+  (n, o) => {
+    if (localStorage.getItem('userId')) {
+      userId.value = localStorage.getItem('userId')
+    }
+  }
+)
 
 function loginOut() {
-  console.log('logout is 退出')
   localStorage.clear()
-  // 页面刷新
+  isMobileShow.value = false // 页面刷新
   router.go()
+  proxy.$message('账号退出成功', 'success')
 }
 </script>
-<style lang=""></style>
+<style scoped>
+.mobile-drop-down {
+  opacity: 100;
+  visibility: visible;
+}
+</style>

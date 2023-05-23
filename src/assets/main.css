@@ -36,6 +36,13 @@ a,
 }
 
 
+/* 左侧导航栏 */
+.max-h-custom {
+  max-height: calc(100vh - 17rem);
+}
 
-
-/* app */
+.demo-pagination-block {
+  margin-top: 10px;
+  background-color: red;
+  max-width: 100%;
+}

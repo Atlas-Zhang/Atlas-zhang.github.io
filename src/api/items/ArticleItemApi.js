@@ -26,4 +26,30 @@ export function _queryArticleItem(articleId) {
     });
 }
 
+
+/**
+ * 用户关注,
+ * @returns {Promise<Response>}
+ */
+export function _likeArticle(AiToolItemId) {
+    return fetch({
+        url: `${import.meta.env.VITE_BASE_URL}/article//${AiToolItemId}/like/user`,
+        method: 'post',
+    });
+}
+
+
+/**
+ * 根据 id 查询
+ * @returns {Promise<Response>}
+ */
+export function _cancelLikeArticle(AiToolItemId) {
+    return fetch({
+        url: `${import.meta.env.VITE_BASE_URL}/article/${AiToolItemId}/cancel-like/user`,
+        method: 'post',
+    });
+}
+
+
+
 export default {};

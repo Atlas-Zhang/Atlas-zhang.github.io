@@ -14,7 +14,7 @@ onMounted(() => {
     if ('/' === currentPath.value) {
       appDoc.classList.remove('home-class')
     }
-    judgeToken()
+    // judgeToken()
   }
 })
 
@@ -23,10 +23,9 @@ function judgeToken() {
   const token = JSON.stringify(tokenObj)
   const timeStampObj = localStorage.getItem('timestamp')
   const timeStamp = JSON.stringify(timeStampObj)
-  console.log('----------------------token is --------------', token, timeStamp)
   // 不存在 token，直接报错
 
-  if (tokenObj === null || timeStampObj === null) {
+  if ((tokenObj === null || timeStampObj === null) &&  currentPath.value !== '/' ) {
     if (currentPath.value !== '/') {
       localStorage.setItem('origin-routine', currentPath.value)
     }
@@ -37,7 +36,7 @@ function judgeToken() {
   // Wait for some time...
   var currentTimestamp = Date.now()
   var difference = (currentTimestamp - parseInt(timeStamp)) / 1000 / 60 / 60
-  if (difference < 48) {
+  if (difference < 48 &&  currentPath.value !== '/' ) {
     if (currentPath.value !== '/') {
       localStorage.setItem('origin-routine', currentPath.value)
     }
@@ -59,7 +58,7 @@ watch(
         // appDoc.classList.add('home-class')
       }
     }
-    judgeToken()
+    // judgeToken()
   }
 )
 </script>
@@ -70,7 +69,7 @@ watch(
       <HeadBar></HeadBar>
     </div>
 
-    <div class="mt-16 relative">
+    <div class="mt-16 relative lg:flex lg:flex-col lg:items-center">
       <RouterView />
     </div>
   </div>

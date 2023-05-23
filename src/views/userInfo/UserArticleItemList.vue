@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="pl-4 text-xl lg:text-2xl font-semibold head-title">文章收藏列表</h1>
-    <div class="p-4 lg:px-6 sm:ml-64 h-auto">
+    <div class="p-4 lg:px-6 h-auto">
       <article-card-item
         v-for="(item, index) in itemData.data"
         :key="index"
@@ -12,21 +12,22 @@
       >
       </article-card-item>
     </div>
-    <div class="demo-pagination-block">
-      <el-pagination
-        v-model:current-page="itemData.pageObj.page"
-        v-model:page-size="itemData.pageObj.size"
-        :page-sizes="[12, 48, 96, 128]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="itemData.pageObj.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
   </div>
+
+  <el-pagination
+    v-if="itemData.pageObj.total > 0"
+    class="flex-wrap space-y-2 lg:flex-nowrap lg:space-y-0 font-bold"
+    v-model:current-page="itemData.pageObj.page"
+    v-model:page-size="itemData.pageObj.size"
+    :page-sizes="[12, 48, 96, 128]"
+    :small="small"
+    :disabled="disabled"
+    :background="background"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="itemData.pageObj.total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  />
 </template>
 <script setup>
 import { onMounted, ref, defineProps } from 'vue'
@@ -74,14 +75,12 @@ async function queryItems() {
     direction: itemData.value.pageObj.sort.direction
   })
   if (result) {
-    console.log('result is ', result)
     itemData.value.data = result.content
     itemData.value.pageObj.total = result.totalElements
   }
 }
 
 onMounted(() => {
-  console.log('userId is ', Props.userId)
   queryItems()
 })
 </script>

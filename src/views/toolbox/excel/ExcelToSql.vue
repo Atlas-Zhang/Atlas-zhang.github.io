@@ -4,6 +4,7 @@ import { ref, getCurrentInstance } from 'vue'
 import { read, utils, writeFile } from 'xlsx'
 import { listToJson, converToColumnType } from '@/utils/dataFormatConvert'
 import { useRouter, useRoute } from 'vue-router'
+import ToolBoxDesc from '@/components/card/ToolBoxDesc.vue'
 const router = useRouter()
 
 // 获取代理
@@ -15,6 +16,10 @@ const globalData = ref({
     data: '',
     dataIndex: 0
   }
+})
+const toolData = ref({
+  title: 'EXCEL转SQL',
+  desc: '上传xlsx、csv等文件，自动转换为格式化的SQL与JSON、XML等数据格式'
 })
 
 function listToColumnNames(dataList) {
@@ -28,7 +33,6 @@ function listToColumnNames(dataList) {
 
 function uploadData(options) {
   const reader = new FileReader()
-  // console.log('sheets is',globalData.sheets)
   reader.readAsArrayBuffer(options.file) // 读取上传的Excel文件
   reader.onload = () => {
     const data = new Uint8Array(reader.result) // 转换为Uint8Array格式
@@ -112,10 +116,9 @@ function tabChange(activeName) {
 function copyMessage() {
   try {
     navigator.clipboard.writeText(globalData.value.sqlOj.data)
-    console.log('复制成功')
+
     proxy.$message('SQL 已成功复制到粘贴板中')
   } catch (err) {
-    console.log(err)
     proxy.$message('复制失败', 'error')
   }
 }
@@ -141,23 +144,10 @@ function tableNameChange() {
 }
 </script>
 <template>
-  <div class="h-screen p-5 all-page">
-    <div class="mb-8 ml-5">
-      <a
-        class="cursor-pointer hover:text-blue-600 hover:font-bold"
-        @click="
-          () => {
-            router.push('/')
-          }
-        "
-        >返回首页</a
-      >
-    </div>
-
-    <div class="bg-gray-500 p-4 rounded-xl">
-      <span class="text-white text-sm">借助本工具，可以将EXCEL 自动转换为 SQL</span>
-    </div>
-    <div class="excel-page h-auto flex-col flex justify-start p-10 mt-2">
+  <div class="p-2 all-page h-auto min-h-screen">
+    <ToolBoxDesc :title="toolData.title" :desc="toolData.desc"> </ToolBoxDesc>
+    <div class="mb-8 ml-5"></div>
+    <div class="excel-page h-auto flex-col flex justify-start mt-2 p-5">
       <div class="flex-grow-0 h-40">
         <el-upload
           class="upload-demo"
@@ -169,17 +159,23 @@ function tableNameChange() {
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">将文件拖拽至该位置 <em>点击上传</em></div>
           <template #tip>
-            <div class="el-upload__tip text-sm">支持xls，xlsx 文件类型</div>
+            <div class="el-upload__tip text-sm">仅支持xls，xlsx、csv 等文件类型</div>
           </template>
         </el-upload>
       </div>
-      <el-tabs type="border-card" class="flex-grow-0 mt-2" @tab-change="tabChange">
+      <el-tabs
+        type="border-card"
+        class="flex-grow-0 mt-2"
+        @tab-change="tabChange"
+        v-if="globalData.sheets && globalData.sheets.length > 0"
+      >
         <el-tab-pane :label="item[0]" v-for="(item, index) in globalData.sheets" :key="index">
-          <div style="height: 40vh; width: 100vh">
+          <div style="height: 40vh; width: 100%">
             <el-auto-resizer>
               <template #default="{ height, width }">
                 <el-table-v2
                   ref="tableRef"
+                  class="border-2 border-gray-300 rounded-xl"
                   :columns="item[3]"
                   :data="item[2]"
                   :width="width"
@@ -190,17 +186,24 @@ function tableNameChange() {
           </div>
         </el-tab-pane>
       </el-tabs>
-      <div class="bg-gray-600 rounded w-17/18 mt-5 other-height flex max-h-full h-80">
-        <div class="bg-blue-900 m-3 rounded w-1/3 flex justify-start pl-3 items-center">
-          <div class="font-mono w-11/12 flex flex-col justify-center items-start h-full text-xs">
-            <div class="flex justify-start w-hull">
-              <span class="text-white font-normal text-sm w-2/5 inline-flex items-center"
+      <div
+        class="bg-gray-600 rounded w-full lg:w-17/18 mt-5 p-2 lg:p-0 other-height flex flex-col lg:flex-row max-h-full h-auto lg:h-96"
+      >
+        <div
+          class="bg-blue-900 lg:m-3 rounded w-full lg:w-1/3 flex justify-start pl-3 py-3 lg:py-0 items-center"
+        >
+          <div
+            class="font-mono w-full lg:w-11/12 flex flex-col justify-center items-start h-full text-xs"
+          >
+            <div class="flex justify-start w-full">
+              <span class="text-white font-normal text-sm w-1/3 lg:w-2/5 inline-flex items-center"
                 >更改表名</span
               >
               <el-input
-                class="input-class w-3/4"
+                class="input-class w-3/5 lg:w-3/4"
                 @input="tableNameChange"
                 v-model="globalData.sqlOj.tableName"
+                :disabled="globalData.sheets.length <= 0"
                 placeholder="输入表名"
               />
             </div>
@@ -214,9 +217,10 @@ function tableNameChange() {
             </div>
           </div>
         </div>
-        <div class="bg-white m-3 w-2/3">
+        <div class="h-80 lg:h-auto lg:bg-white mt-5 lg:m-3 w-full lg:w-2/3">
           <textarea
-            class="bg-blue-900 text-white text-xs font-mono rounded flex-shrink h-full w-full p-3"
+            wrap="off"
+            class="bg-blue-900 text-white text-xs lg:text-lg font-mono rounded lg:flex-shrink h-full w-full p-3 overflow-x-scroll"
             :value="globalData.sqlOj.data"
           >
           </textarea>
@@ -236,6 +240,10 @@ function tableNameChange() {
   color: black;
   font-size: 20px;
   padding: 1rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.2rem;
+  }
 }
 
 :deep(.el-upload-dragger) {
@@ -254,11 +262,27 @@ function tableNameChange() {
 
 :deep(.input-class) {
   --el-input-bg-color: rgba(77, 85, 98, 0.8);
-  --el-input-text-color: white;
+  --el-input-text-color: black;
   border-radius: 2em;
   --el-input-border-color: rgb(37, 57, 133);
   input .el-input__inner {
     font-family: monospace;
   }
+}
+
+textarea::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  cursor: pointer;
+}
+
+textarea::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #888;
+  cursor: pointer;
 }
 </style>

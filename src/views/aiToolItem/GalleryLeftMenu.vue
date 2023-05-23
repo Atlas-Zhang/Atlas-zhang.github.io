@@ -65,7 +65,6 @@ const tagData = ref([
 ])
 
 function changeEnable(val) {
-  console.log('val is ', val)
   val.isEnabled = !val.isEnabled
   tagData.value.forEach((item) => {
     if (item.id !== val.id) {

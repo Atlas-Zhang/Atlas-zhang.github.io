@@ -4,6 +4,7 @@
     data-drawer-toggle="default-sidebar"
     aria-controls="default-sidebar"
     type="button"
+    id="default-sidebar-btn"
     class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
   >
     <span class="sr-only">Open sidebar</span>
@@ -24,28 +25,17 @@
 
   <aside
     id="default-sidebar"
-    class="absolute top-1 left-0 z-10 w-64 transition-transform -translate-x-full sm:translate-x-0 h-full"
+    class="fixed top-2 mt-16 left-1 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar"
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
-        <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <span class="flex-1 ml-3 whitespace-nowrap">全部</span>
-            <span
-              class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"
-              >{{ itemData.totalNum }}</span
-            >
-          </a>
-        </li>
         <sider-bar-item
           v-for="(item, index) in resultTags"
           :key="index"
           :tagId="item.id"
           :name="item.name"
+          @changeTagId="clickTagIdList"
           :total-num="item.number"
         >
         </sider-bar-item>
@@ -53,10 +43,8 @@
     </div>
   </aside>
 
-  <div class="p-4 sm:ml-64">
-    <div
-      class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 h-screen"
-    >
+  <div class="  sm:absolute sm:left-64 sm:top-0 sm:right-0 sm:bottom-0  ">
+    <div class="p-2 lg:p-4 h-screen">
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-2 lg:gap-2 mb-4">
         <CardContentInfo
           v-for="(item, index) in itemData.data"
@@ -101,7 +89,21 @@ const itemData = ref({
   }
 })
 
+function clickTagIdList(tagId) {
+  itemData.value.tagId = tagId
+  const asideBar = document.getElementById('default-sidebar')
+  const defaultSiderBtn = document.getElementById('default-sidebar-btn')
+  if (asideBar.classList.contains('transform-none')) {
+    defaultSiderBtn.click()
+    searchList()
+  } else {
+    searchList()
+  }
+}
+
 async function searchList() {
+  // 加载中
+
   const result = await _queryAiToolItems({
     tagId: itemData.value.tagId,
     page: itemData.value.pageObj.page,
@@ -111,7 +113,6 @@ async function searchList() {
     title: itemData.value.title
   })
   if (result) {
-    console.log('result is ', result)
     itemData.value.data = result.content
     itemData.value.pageObj.total = result.totalElements
   }
@@ -120,7 +121,6 @@ async function searchList() {
 async function queryAllTags() {
   const result = await _queryAiToolTags()
   if (result) {
-    console.log('result is', result)
     resultTags.value = result
   }
 }
@@ -129,7 +129,6 @@ onMounted(async () => {
   initFlowbite()
   queryAllTags()
   searchList()
-  console.log('-------------------------------///////////////')
 })
 </script>
-<style lang=""></style>
+<style></style>

@@ -53,7 +53,6 @@ async function searchList() {
     title: searchValue.value.title
   })
   if (result) {
-    console.log('result is ', result)
     resultList.value = result.content
     resultList.value.push(result.content[0])
     resultList.value.push(result.content[0])
@@ -62,11 +61,6 @@ async function searchList() {
 }
 
 onMounted(() => {
-  console.log('-----------------------------')
   searchList()
 })
-
-function valueChanges(val) {
-  console.log('parentValue is ', val)
-}
 </script>

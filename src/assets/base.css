@@ -72,3 +72,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+
+.el-pagination__total {
+  font-weight: bold;
+}
+
+.el-pagination__goto {
+  font-weight: bold;
+}

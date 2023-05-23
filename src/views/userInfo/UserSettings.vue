@@ -1,24 +1,42 @@
 <template>
-  <div class="flex bg-gray-50 h-screen justify-center items-center">
-    <div class="flex w-20 h-3/4 md:max-h-2xl rounded shadow flex-col">
+  <div
+    class="flex flex-col lg:flex-row bg-gray-50 h-screen lg:justify-center lg:items-center pt-10 px-1 lg:p-2"
+  >
+    <div
+      class="flex items-center w-full lg:w-20 h-16 lg:h-3/4 md:max-h-2xl rounded shadow lg:flex-col p-2 cursor-pointer"
+    >
+      <a
+        @click="changeTab($event, 'USER_TAB')"
+        aria-current="page"
+        class="w-full flex h-full lg:h-1/2 lg:mt-2 justify-center items-center font-medium rounded-t-md px-5 py-5 lg:py-2 border-t border-b hover:bg-gray-600"
+        :class="[activeTab === 'USER_TAB' ? 'text-white bg-black text-lg' : 'bg-white text-black']"
+      >
+        <span class="inline-block text-center transform">个人信息</span>
+      </a>
       <a
         @click="changeTab($event, 'AI-TOOLS')"
         aria-current="false"
-        class="w-full h-1/2 flex justify-center items-center font-medium rounded-l px-5 py-2 border bg-white text-gray-800 border-gray-200 hover:bg-gray-100"
+        class="w-full h-full lg:h-1/2 flex justify-center items-center font-medium rounded-t-md px-5 py-5 lg:py-2 border hover:bg-gray-600"
+        :class="[activeTab === 'AI-TOOLS' ? 'text-white bg-black text-lg' : 'bg-white text-black']"
       >
-        <span class="inline-block">工具合集收藏</span>
+        <span class="text-center">AI工具收藏</span>
       </a>
       <a
         @click="changeTab($event, 'ARTICLE')"
         aria-current="page"
-        class="w-full flex h-1/2 mt-2 justify-center items-center font-medium px-5 py-2 border-t border-b bg-gray-900 text-white border-gray-900 hover:bg-gray-800"
+        class="w-full flex h-full lg:h-1/2 lg:mt-2 justify-center items-center font-medium px-5 py-5 rounded-t-md lg:py-2 border-t border-b hover:bg-gray-600"
+        :class="[activeTab === 'ARTICLE' ? 'text-white bg-black text-lg' : 'bg-white text-black']"
       >
-        <span class="inline-block transform">文章收藏</span>
+        <span class="inline-block text-center transform">文章收藏</span>
       </a>
     </div>
-    <div class="w-3/4 h-3/4 bg-white p-10 text-black">
-      <user-article-item-list v-if="activeTab === 'AI-TOOLS'"></user-article-item-list>
-      <user-tool-item-list v-if="activeTab === 'ARTICLE'"></user-tool-item-list>
+    <div class="w-full lg:w-3/4 h-auto lg:h-3/4 bg-white p-3 lg:p-10 text-black">
+      <user-article-item-list v-if="activeTab === 'ARTICLE'"></user-article-item-list>
+      <user-tool-item-list v-if="activeTab === 'AI-TOOLS'"></user-tool-item-list>
+      <div v-if="activeTab === 'USER_TAB'" class="space-y-2 lg:p-10 lg:space-y-5">
+        <FormItemTemp :label="'用户名'" :val="userId"></FormItemTemp>
+        <FormItemTemp :label="'性别'" :val="'未知'"></FormItemTemp>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +44,7 @@
 import { onMounted, ref, defineProps } from 'vue'
 import UserArticleItemList from '@/views/userInfo/UserArticleItemList.vue'
 import UserToolItemList from '@/views/userInfo/UserToolItemList.vue'
+import FormItemTemp from '@/components/form/FormItemTemp.vue'
 
 const Props = defineProps({
   userId: {
@@ -34,34 +53,10 @@ const Props = defineProps({
   }
 })
 
-const activeTab = ref('AI-TOOLS')
+const activeTab = ref('USER_TAB')
 
 function changeTab(event, value) {
   activeTab.value = value
-  const docu = event.target
-  if (!docu.classList.contains('bg-gray-900')) {
-    console.log('add')
-    docu.classList.remove('text-gray-800')
-    docu.classList.remove('border-gray-200')
-    docu.classList.remove('bg-white')
-
-    docu.classList.add('border-b')
-    docu.classList.add('bg-gray-900')
-    docu.classList.add('border-gray-900')
-    docu.classList.add('text-white')
-  } else {
-    docu.classList.remove('bg-gray-900')
-    docu.classList.remove('border-gray-900')
-    docu.classList.remove('text-white')
-    docu.classList.add('border-b')
-    docu.classList.add('text-gray-800')
-    docu.classList.add('border-gray-200')
-    docu.classList.add('bg-white')
-  }
 }
-
-onMounted(() => {
-  console.log('userId is ', Props.userId)
-})
 </script>
 <style lang=""></style>

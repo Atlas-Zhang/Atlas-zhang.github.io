@@ -40,7 +40,6 @@
       </a>
     </div>
   </div>
-  >
 </template>
 <script setup>
 import { ref, defineEmits, defineProps } from 'vue'

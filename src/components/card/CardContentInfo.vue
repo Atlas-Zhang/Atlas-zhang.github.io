@@ -1,25 +1,37 @@
 <template>
   <div
-    class="card rounded-lg shadow-md w-fill hover:-translate-y-1 hover:translate-x-1 hover:shadow-lg hover:scale-102 transition duration-500 ease-in-out"
+    class="card rounded-2xl shadow-md w-fill hover:-translate-y-1 hover:translate-x-1 hover:shadow-lg hover:scale-102 transition duration-500 ease-in-out"
   >
-    <div class="flex items-center bg-white rounded-t-lg px-4 py-2 lg:py-4">
+    <div class="flex items-center bg-gray-100 rounded-lg px-4 lg:px-2 py-2 lg:py-2">
       <img
-        :src="logo"
+        :src="logo.replace('https://', 'http://') + '?timestamp=' + Date.parse(new Date()) / 1000"
         alt="Logo Image"
-        class="w-16 h-16 lg:w-24 lg:h-24 object-cover object-center rounded-full"
+        class="w-auto h-16 lg:h-10 object-cover object-center rounded-full"
       />
       <div class="ml-1 lg:ml-5 pl-2">
-        <h5 class="card-title text-xl font-bold text-black mb-0 lg:mb-1">{{ title }}</h5>
-        <p class="card-text text-gray-700 leading-snug font-medium">
-          {{ desc }}
-        </p>
-        <div class="text-md flex space-x-2">
+        <el-tooltip class="text-2xl" effect="dark" :content="title" placement="left">
+          <h5
+            class="card-title text-xl font-bold lg:text-md text-black mb-0 lg:mb-1 whitespace-nowrap overflow-ellipsis block overflow-hidden w-64 cursor-default"
+          >
+            {{ title }}
+          </h5>
+        </el-tooltip>
+
+        <el-tooltip class="text-2xl" effect="dark" :content="desc" placement="top">
           <p
-            class="font-bold rounded-sm border-black"
+            class="text-gray-700 w-full pr-2 lg:p-0 lg:text-sm lg:whitespace-nowrap lg:overflow-ellipsis block lg:overflow-hidden lg:w-64 cursor-default"
+          >
+            {{ desc }}
+          </p>
+        </el-tooltip>
+
+        <div class="text-sm flex space-x-2 mt-1">
+          <p
+            class="rounded-lg text-white p-1 cursor-pointer"
             v-for="(item, index) in tags"
             :key="index"
             :style="{
-              color: item.color
+              backgroundColor: item.color
             }"
           >
             {{ item.name }}
@@ -32,7 +44,7 @@
               router.push(`/ai-tool-item/${itemId}/detail`)
             }
           "
-          class="inline-block py-1 rounded-lg hover:bg-gray-200 text-blue-600 cursor-pointer"
+          class="inline-block py-1 rounded-lg hover:bg-gray-200 text-blue-600 cursor-pointer text-sm"
           >查看详情</a
         >
       </div>
@@ -69,12 +81,6 @@ const Props = defineProps({
     type: String,
     default: ''
   }
-})
-
-onMounted(() => {
-  console.log('mount is ', Props.itemId)
-  console.log('----------')
-  console.log('tags is ', Props.tags)
 })
 </script>
 <style scoped lang="less"></style>
