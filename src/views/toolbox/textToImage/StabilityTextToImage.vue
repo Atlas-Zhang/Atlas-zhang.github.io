@@ -1,14 +1,17 @@
 <template>
   <div
-    class="min-h-screen h-auto pt-5 p-2 bg-gray-700 lg:w-3/5 lg:pt-10 lg:p-5 mt-10 lg:rounded-xl lg:h-auto"
+    class="min-h-screen h-auto pt-5  p-2  lg:w-4/5 lg:pt-10 lg:p-5 mt-10 lg:rounded-xl lg:h-auto"
   >
     <ToolBoxDesc :title="toolData.title + '(该服务暂时不可用)'" :desc="toolData.desc">
     </ToolBoxDesc>
 
-    <div class="mt-2 w-full border-2 box-border bg-white rounded-sm p-2">
+    <div class="mt-2 w-full border-2 box-border bg-white rounded-sm lg:rounded-2xl px-2 lg:px-5 py-10">
       <textarea
         :value="submitData.prompt"
-        class="w-full bg-gray-600 h-32 rounded-lg border-black border-2 text-sm text-white p-2 focus:border-yellow-300 focus:shadow-sm"
+        :placeholder="'Input the prompt text for generate images'"
+        class="w-full bg-gray-600 h-32 rounded-lg 
+         placeholder-gray-400
+        border-black border-2 text-sm text-white p-2 focus:border-yellow-300 focus:shadow-sm"
         @input="
           (e) => {
             submitData.prompt = e.target.value
@@ -16,7 +19,7 @@
         "
       ></textarea>
       <div
-        class="w-[40vw] bg-gray-100 text-black flex justify-center items-center p-1 text-md mt-2 mx-auto border-black border-2 rounded-md focus:border-blue-500"
+        class="w-[40vw] bg-gray-100 text-black flex justify-center items-center p-1 text-md mt-2 mx-auto border-black border-2 rounded-md focus:border-blue-500 cursor-not-allowed"
       >
         Generate
       </div>
@@ -31,15 +34,27 @@
         />
       </div>
     </div>
-    <div class="bg-white rounded-md mt-2 p-2" v-if="submitData.image">
+    <div class="bg-white rounded-md mt-2 p-2 " v-if="submitData.image">
       <span class="border-l-4 border-red-600 text-black text-sm font-bold pl-3">历史生成记录 </span>
       <div class="mt-2"></div>
+    </div>
+
+    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-20 gap-3 rounded-lg">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="'StabilityTextToImage'"
+      :type-name="'Stability AI 绘画'"
+      :data-type="'TOOL_BOX'">
+      </CommentConf>
     </div>
   </div>
 </template>
 <script setup>
 import { ref, getCurrentInstance, onMounted } from 'vue'
 import ToolBoxDesc from '@/components/card/ToolBoxDesc.vue'
+import CommentConf from '@/components/tools/CommentConf.vue'
 import { _submitDataForTextToImage } from '@/api/toolbox/ToolBoxApi.js'
 import { _queryAiToolItem } from '@/api/items/AiToolItemApi'
 import { assignCopy } from '@/utils/util.js'

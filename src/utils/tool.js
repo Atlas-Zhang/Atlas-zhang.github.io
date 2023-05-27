@@ -33,6 +33,19 @@ export function isValidUrl(url) {
 
 
 
+/**
+ * 校验邮箱
+ * @param {} email 
+ * @returns 
+ */
+export function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+
+
+
 export function loadingMsg() {
     return ElLoading.service({
         lock: true,

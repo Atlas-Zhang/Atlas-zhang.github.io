@@ -5,6 +5,7 @@ import { read, utils, writeFile } from 'xlsx'
 import { listToJson, converToColumnType } from '@/utils/dataFormatConvert'
 import { useRouter, useRoute } from 'vue-router'
 import ToolBoxDesc from '@/components/card/ToolBoxDesc.vue'
+import CommentConf from '@/components/tools/CommentConf.vue'
 const router = useRouter()
 
 // 获取代理
@@ -144,7 +145,10 @@ function tableNameChange() {
 }
 </script>
 <template>
-  <div class="p-2 all-page h-auto min-h-screen">
+  <div class="p-2 lg:p-5 bg-gray-200 rounded-lg h-auto min-h-screen w-full lg:w-4/5 mt-2">
+    <div class="border-l-[6px] border-blue-400  my-5">
+      <span class="font-bold text-black pl-5 text-2xl">转换工具</span>
+    </div>
     <ToolBoxDesc :title="toolData.title" :desc="toolData.desc"> </ToolBoxDesc>
     <div class="mb-8 ml-5"></div>
     <div class="excel-page h-auto flex-col flex justify-start mt-2 p-5">
@@ -227,6 +231,18 @@ function tableNameChange() {
         </div>
       </div>
     </div>
+
+    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-10 gap-3 rounded-lg">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="'excel-process'"
+      :type-name="'EXCEL转SQL'"
+      :data-type="'AI_TOOL'">
+      </CommentConf>
+    </div>
+
   </div>
 </template>
 

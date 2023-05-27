@@ -27,9 +27,9 @@ export async function fetch(options) {
             sign: sign,
         },
     })
+
     try {
         const result = await instance(options)
-
         loading.close()
         if (result.status === 200) {
             return result.data.result || {}

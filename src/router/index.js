@@ -12,6 +12,11 @@ const childComponents = [{
     component: HomeView
   },
   {
+    path: '/test-page',
+    name: 'TEST_PAGE',
+    component: () => import('@/views/TestPage.vue')
+  },
+  {
     path: '/example/navbars-view',
     name: 'example-navbars',
     component: NavbarsViewVue
@@ -53,9 +58,6 @@ const childComponents = [{
     name: 'excel-process',
     component: () => import('@/views/toolbox/excel/ExcelToSql.vue'),
   },
-
-
-
   {
     path: '/tool-box/text-to-image/stability',
     name: 'STABILITY_TEXT_IMAGE',
@@ -98,6 +100,11 @@ const childComponents = [{
     component: () => import('@/views/login/LoginPageView.vue')
   },
 
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/views/AboutView.vue')
+  },
   {
     path: '/about',
     name: 'about',

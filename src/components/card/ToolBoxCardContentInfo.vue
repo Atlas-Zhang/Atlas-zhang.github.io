@@ -85,7 +85,7 @@ function routerPush() {
 
 
 onMounted(() => {
-  console.log('logo is ',Props.logo)
+
 })
 </script>
 <style scoped lang="less"></style>

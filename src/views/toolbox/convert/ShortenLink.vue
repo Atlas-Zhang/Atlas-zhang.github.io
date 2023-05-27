@@ -1,22 +1,33 @@
 <template>
   <div class="h-screen pt-0 p-2  lg:w-4/5 lg:pt-10 lg:p-5 mt-2 lg:rounded-xl lg:h-auto text-black">
     <ToolBoxDesc :title="toolData.title" :desc="toolData.desc"> </ToolBoxDesc>
-    <div class="mt-5 bg-white lg:p-5 ">
+    <div class="mt-5 p-2 bg-white lg:p-5 ">
         <h1 class="text-xl font-bold border-l-4 border-l-blue-500 pl-6">请输入链接</h1>
-        <div class="flex mt-10 w-full  items-center flex-col p-2 h-[400px]">
-            <div class="w-3/4 flex gap-3 h-20
-                shadow-md">
-                <input placeholder="输入链接"
+        <div class="flex mt-10 w-full  items-center flex-col p-2 pb-10  h-auto">
+            <div class="w-full lg:w-3/4  justify-center  flex gap-3 lg:h-24 py-2
+                ">
+                <input placeholder="请输入输入链接"
                 v-model="formData.originUrl"
-                class="rounded-lg  border-2 border-gray-500 w-5/6 text-center
-                focus:border-yellow-200
+                class="rounded-lg  
+                bg-gray-50
+                border 
+                border-gray-500  lg:w-5/6 text-center
+                focus:border-parmary-500
+                block
+                px-2
+                py-2
+                placeholder-gray-400
+                focus:ring-primary-500
                 text-2xl "/>
                 <button 
                 @click="generateUrl"
                 class="
                 rounded-xl
-                text-[1.5rem]
-                bg-blue-300 w-1/6
+                text-[1rem]
+                px-2
+                py-1
+                lg:text-[1.5rem]
+                bg-blue-300 lg:w-1/6
                 hover:text-white">生成短链</button>
             </div>
 
@@ -43,6 +54,16 @@
             </div>
         </div>
     </div>
+    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-10 gap-3 rounded-lg">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="'ShortenLink'"
+      :type-name="'短链服务'"
+      :data-type="'TOOL_BOX'">
+      </CommentConf>
+    </div>
   </div>
 </template>
 
@@ -52,6 +73,7 @@ import ToolBoxDesc from '@/components/card/ToolBoxDesc.vue'
 import {_shortenUrl} from  '@/api/toolbox/ToolBoxApi.js'
 import {isValidUrl,loadingMsg}  from '@/utils/tool.js'
 import  ClipboardItem  from '@/components/tools/ClipboardItem.vue'
+import CommentConf from '@/components/tools/CommentConf.vue'
 const { proxy } = getCurrentInstance()
 const toolData = ref({
   loading: false,
@@ -72,7 +94,6 @@ async function generateUrl(){
     const loading = loadingMsg()
     const result = await _shortenUrl({url: formData.value.originUrl})
     if(result){
-        console.log('result is ',result)
         formData.value.shortenUrl = result
         loading.close()
     }
@@ -81,13 +102,8 @@ async function generateUrl(){
 
 
 
-
-
-
-
-
 onMounted(() => {
-    console.log('开始-------------------')
+  
 })
 
 

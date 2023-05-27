@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen flex-col justify-start overflow-hidden bg-gray-50 py-8 lg:py-8">
+  <div class="flex min-h-screen flex-col w-full lg:w-3/4 mt-3 justify-start overflow-hidden bg-gray-50 py-8 lg:py-8">
     <div class="max-w-8xl lg:ml-5">
-      <div class="flex px-4 lg:pt-8 lg:pb-10 lg:px-8 w-auto">
+      <div class="flex px-4 lg:pt-4 lg:pb-10  w-auto">
         <a
           @click="
             () => {
@@ -15,7 +15,7 @@
         </a>
       </div>
     </div>
-    <article class="prose lg:prose-xl mx-auto p-5">
+    <article class="prose w-full lg:prose-xl max-w-full p-5 bg-white  rounded-2xl">
       <h1 class="text-4xl lg:text-5xl">{{ itemData.title }}</h1>
       <div class="flex flex-col justify-between text-sm lg:flex-row cursor-pointer">
         <time class="mb-1"
@@ -33,16 +33,28 @@
           {{ itemData.author }}
         </span>
       </div>
-      <div class="flex items-center mt-2">
+      <!-- <div class="flex items-center mt-2">
         <div class="pl-2">
           <LikeIcon :is-like="itemData.isLike" @changeLike="changeLikeStatus"> </LikeIcon>
         </div>
 
         <span class="ml-2 text-gray-400 text-xl">{{ itemData.favoriNum }}</span>
-      </div>
+      </div> -->
       <div v-html="itemData.htmlContent" class="article-content" v-highlight></div>
       <!-- ... -->
     </article>
+
+    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-10 gap-3 rounded-lg">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="articleId"
+      :type-name="itemData.title"
+      :data-type="'ARTICLE'">
+      </CommentConf>
+    </div>
+
   </div>
 </template>
 
@@ -55,6 +67,7 @@ import { _likeArticle, _cancelLikeArticle, _queryArticleItem } from '@/api/items
 import { useRouter } from 'vue-router'
 import LikeIcon from '@/components/icons/LikeIcon.vue'
 import { ElLoading } from 'element-plus'
+import CommentConf from '@/components/tools/CommentConf.vue'
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const Props = defineProps({
@@ -135,6 +148,14 @@ onMounted(async () => {
   /deep/ li p {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+
+  /deep/  p {
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
   }
 }
 </style>

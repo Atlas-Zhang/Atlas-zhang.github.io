@@ -1,8 +1,8 @@
 <template>
-  <div class="h-screen pt-5 p-2 bg-gray-700 lg:w-3/5 lg:pt-10 lg:p-5 mt-10 lg:rounded-xl lg:h-auto">
+  <div class="h-screen  p-2  lg:w-4/5 lg:pt-10 lg:p-5 mt-2 lg:rounded-xl lg:h-auto">
     <ToolBoxDesc :title="toolData.title" :desc="toolData.desc"> </ToolBoxDesc>
 
-    <div class="mt-2 bg-white p-2 flex lg:mt-5 lg:rounded-lg">
+    <div class="mt-2 bg-white p-2 flex lg:py-10 pb-2  lg:rounded-lg">
       <a
         class="p-2 rounded-t-lg text-white lg:w-1/4 lg:p-3 lg:text-center lg:py-3 cursor-pointer"
         @click="changeType('ENCODE')"
@@ -25,7 +25,7 @@
       >
     </div>
     <div
-      class="mt-2 lg:mt-5 bg-white p-2 h-64 lg:h-96 lg:p-10"
+      class=" bg-white p-2  h-64 lg:h-96 lg:p-10 pt-0"
       v-if="submitData.type === 'REVERSE_ENCODE'"
     >
       <FormInputNumber :label="'经度'" v-model:value="submitData.lat" class="py-2 lg:py-5">
@@ -42,7 +42,7 @@
           @click="submitDataToBack"
           :disabled="toolData.disabled"
           :loading="toolData.loading"
-          class="mt-2 mr-2 w-full lg:w-2/5 lg:ml-10 lg:text-lg bg-gray-200 border-1 border-black p-4 lg:p-4 hover:font-bold focus:font-bold hover:bg-gray-300"
+          class="mt-2 mr-2 w-full lg:w-3/5 lg:ml-10 lg:text-lg bg-gray-200 border-1 border-black p-4 lg:p-4 hover:font-bold focus:font-bold hover:bg-gray-300"
         >
           提交</el-button
         >
@@ -68,16 +68,27 @@
           @click="submitDataToBack"
           :disabled="toolData.disabled"
           :loading="toolData.loading"
-          class="mt-2 mr-2 w-full lg:w-2/5 lg:ml-10 lg:text-lg bg-gray-200 border-1 border-black p-4 lg:p-4 hover:font-bold focus:font-bold hover:bg-gray-300"
+          class="mt-2 mr-2 w-full lg:w-3/5 lg:ml-10 lg:text-lg bg-gray-200 border-1 border-black p-4 lg:p-4 hover:font-bold focus:font-bold hover:bg-gray-300"
         >
           提交</el-button
         >
       </div>
     </div>
+    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-10 gap-3 rounded-lg">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="'geoCode'"
+      :type-name="'经纬度转换'"
+      :data-type="'TOOL_BOX'">
+      </CommentConf>
+    </div>
   </div>
 </template>
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
+import CommentConf from '@/components/tools/CommentConf.vue'
 import { ref, getCurrentInstance } from 'vue'
 import FormInput from '@/components/form/FormInput.vue'
 import FormInputNumber from '@/components/form/FormInputNumber.vue'

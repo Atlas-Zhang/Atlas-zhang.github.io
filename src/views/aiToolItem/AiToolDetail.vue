@@ -39,7 +39,7 @@
         class="w-full h-auto object-cover rounded-lg lg:w-1/4"
       />
       <div
-        class="bg-white border-2 border-gray-200 h-full w-full rounded-lg p-2 sm:p-2 xl:p-8 flex flex-col gap-2 sm:gap-2 xl:gap-5"
+        class="bg-white border-2 border-gray-200 h-full w-full rounded-lg p-5 sm:p-5 xl:p-8 flex flex-col gap-2 sm:gap-2 xl:gap-5"
       >
         <div class="flex items-center gap-2 mb-0 sm:mb-0 xl:mb-2">
           <span
@@ -55,7 +55,7 @@
           <h1 class="text-xl sm:text-xl xl:text-2xl text-black font-bold mr-5">
             {{ itemData.title }}
           </h1>
-          <LikeIcon :is-like="itemData.isLike" @changeLike="changeLikeStatus"> </LikeIcon>
+          <!-- <LikeIcon :is-like="itemData.isLike" @changeLike="changeLikeStatus"> </LikeIcon> -->
         </div>
 
         <p class="text-grey-700 whitespace-normal text-black break-all text-sm xl:text-xl">
@@ -63,7 +63,9 @@
         </p>
         <span class="font-bold text-gray-500 lg:text-lg">
           付费方式:
-          <span class="text-gray-700 ml-2">{{ dictData[itemData.paidType] }}</span>
+          <span class="text-black ml-2  font-bold p-1 rounded-lg" :style="{backgroundColor: confData.AI_TOOLS_PAID_TYPE[itemData.paidType]?.color}">{{ 
+          
+          confData.AI_TOOLS_PAID_TYPE[itemData.paidType]?.value }}</span>
         </span>
         <div class="flex">
           <a
@@ -77,9 +79,20 @@
     </div>
     <!-- 收藏 -->
     <div
-      class="h-auto text-black border-2 border-gray-200 rounded-xl sm:rounded-xl xl:rounded-lg w-full lg:w-11/12 p-2 lg:p-10 mt-8 sm:mt-8 xl:mt-10 bg-white mark-content article-content"
+      class="h-auto text-black border-2 border-gray-200 rounded-xl sm:rounded-xl xl:rounded-lg w-full lg:w-11/12 p-5 lg:p-10 mt-8 sm:mt-8 xl:mt-10 bg-white mark-content article-content"
       v-html="itemData.htmlContent"
     ></div>
+
+    <div class="flex flex-col w-full lg:w-11/12 p-2 lg:p-10 bg-white mt-10 gap-3">
+      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
+        用户评论
+      </span>
+      <CommentConf
+      :relate-id="itemId"
+      :type-name="itemData.title"
+      :data-type="'AI_TOOL'">
+      </CommentConf>
+    </div>
   </div>
 </template>
 <script setup>
@@ -94,8 +107,9 @@ import { ArrowSmallLeftIcon } from '@heroicons/vue/24/solid'
 import { initFlowbite } from 'flowbite'
 import { assignCopy } from '@/utils/util.js'
 import { useRouter } from 'vue-router'
+import CommentConf from '../../components/tools/CommentConf.vue'
 import LikeIcon from '@/components/icons/LikeIcon.vue'
-
+import confData from '@/utils/dataConf.js'
 const { proxy } = getCurrentInstance()
 
 const router = useRouter()
@@ -245,6 +259,12 @@ onMounted(() => {
   /deep/ li p {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+  }
+
+
+  /deep/ p {
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
   }
 
   /deep/ h4 {

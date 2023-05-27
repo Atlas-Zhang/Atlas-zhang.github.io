@@ -18,12 +18,12 @@ const Props = defineProps({
 })
 
 watch(() => Props.value,(newVal) =>{
-    console.log('newVal is ',newVal)
+
 })
 
 
 function copyPaste(){
-    console.log('数据')
+
 
     if(Props.value){
         let textarea = document.createElement('textarea');
