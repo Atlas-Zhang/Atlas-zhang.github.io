@@ -42,6 +42,12 @@ const childComponents = [{
   },
 
   {
+    path: '/about/me',
+    name: 'ABOUT-ME',
+    component: () => import('@/views/aboutMe/AboutMe.vue')
+  },
+
+  {
     path: '/tool-box/list',
     name: 'TOOLBOX-LIST',
     component: () => import('@/views/toolbox/index.vue'),
@@ -92,13 +98,14 @@ const childComponents = [{
     component: () => import('@/views/userInfo/UserSettings.vue')
   },
 
-
-
   {
     path: '/login-page',
     name: 'LOGIN_PAGE_BEGIN',
     component: () => import('@/views/login/LoginPageView.vue')
   },
+
+
+
 
   {
     path: '/about',

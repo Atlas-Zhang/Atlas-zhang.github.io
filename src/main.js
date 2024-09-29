@@ -12,6 +12,7 @@ import 'highlight.js/styles/monokai-sublime.css'
 import his from 'highlight.js'
 import App from './App.vue'
 import router from './router/index.js'
+// import VueResource from "vue-resource";
 import './index.css'
 import './assets/main.css'
 import './assets/feature.less'
@@ -28,6 +29,7 @@ app.directive('highlight', function (el) {
 
 app.use(router)
 app.use(ElementPlus)
+// app.use(VueResource)
 app.config.globalProperties.$message = (msg, type) => {
   ElMessage({
     message: msg,

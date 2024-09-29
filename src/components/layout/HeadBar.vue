@@ -62,7 +62,7 @@
             >
 
 
-            <a
+            <!-- <a
               @click="() => router.push('/pay-plan/list')"
               class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
               :class="[
@@ -70,8 +70,16 @@
                   ? 'font-bold border-blue-300 border-b-4 text-lg'
                   : 'font-medium  border-transparent'
               ]"
-              >付费计划</a
-            >
+              >付费计划</a> -->
+              <a
+              @click="() => router.push('/about/me')"
+              class="cursor-pointer text-gray-500 hover:text-black hover:border-gray-300 whitespace-no-wrap py-5 px-1 border-b-2 hover:font-bold hover:bg-white"
+              :class="[
+                router.currentRoute.value.path === '/about/me'
+                  ? 'font-bold border-blue-300 border-b-4 text-lg'
+                  : 'font-medium  border-transparent'
+              ]"
+              >关于我</a>
           </div>
         </div>
 

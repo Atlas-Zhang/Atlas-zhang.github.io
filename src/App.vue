@@ -3,7 +3,6 @@ import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import HeadBar from '@/components/layout/HeadBar.vue'
 
-const test = ref('OPEN TOOL')
 const currentPath = ref('null')
 const router = useRouter()
 

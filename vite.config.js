@@ -2,15 +2,28 @@ import {
   fileURLToPath,
   URL
 } from 'node:url'
+
 import viteCompression from 'vite-plugin-compression';
+// import Markdown from 'vite-plugin-md'
 import {
   defineConfig
 } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue'
+import VuePlugin from '@vitejs/plugin-vue'
+import plugin, { Mode } from 'vite-plugin-markdown'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), ],
+  // plugins: [
+  //   Vue({
+  //     include: [/\.vue$/, /\.md$/], // <--
+  //   }),
+  //   Markdown()
+  // ],
+  // //    plugin({ mode: [Mode.HTML, Mode.TOC, Mode.VUE] })
+  // // ],
+  plugins: [VuePlugin(), plugin({ mode: [Mode.HTML, Mode.TOC, Mode.VUE] })],
+  assetsInclude: ['**/*.md'],
 
   server: {
     port: 5572,
@@ -24,6 +37,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // fs: require.resolve('rollup-pligin-node-builtins'),
       '@': fileURLToPath(new URL('./src',
         import.meta.url))
     }

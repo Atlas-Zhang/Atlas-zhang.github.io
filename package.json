@@ -20,6 +20,10 @@
     "crypto-js": "^4.1.1",
     "element-plus": "^2.3.0",
     "flowbite": "^1.6.5",
+    "read-markdown": "^1.0.2",
+    "showdown": "^2.1.0",
+    "swiper": "^11.1.14",
+    "vite-plugin-md": "0.10.0",
     "vue": "^3.2.47",
     "vue-markdown": "^2.2.4",
     "vue-router": "^4.1.6",
@@ -44,8 +48,9 @@
     "prettier": "^2.8.4",
     "tailwindcss": "^3.2.7",
     "typescript": "~4.8.4",
-    "vite": "^4.1.4",
+    "vite": "^4.0.0",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-markdown": "^2.2.0",
     "vue-tsc": "^1.2.0"
   }
 }
