@@ -127,7 +127,7 @@
           </div>
         </div>
         <!-- Mobile Menu Button -->
-        <div class="-mr-2 flex items-center sm:hidden">
+        <div class="mr-2 flex items-center sm:hidden">
           <button
             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
             id="mobile-menu-btn"
@@ -214,6 +214,20 @@
         >
 
         <a
+          @click="
+            () => {
+              mobileClickMenu = 'ABOUT_ME'
+              router.push('/about/me')
+              isMobileShow = false
+            }
+          "
+          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
+          :class="[mobileClickMenu === 'ABOUT_MEX' ? 'bg-gray-200' : '']"
+          >关于我</a
+        >
+        
+
+        <!-- <a
           v-if="userId"
           @click="
             () => {
@@ -232,7 +246,7 @@
           @click="loginOut"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out cursor-pointer"
           >退出登录</a
-        >
+        > -->
       </div>
     </div>
   </nav>

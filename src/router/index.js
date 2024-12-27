@@ -6,6 +6,7 @@ import HomeView from '@/views/home/HomeView.vue'
 import NavbarsViewVue from '@/views/example/NavbarsView.vue'
 
 
+
 const childComponents = [{
     path: '/',
     name: 'home',
@@ -33,8 +34,6 @@ const childComponents = [{
     props: true,
     component: () => import('@/views/aiToolItem/AiToolDetail.vue')
   },
-
-
   {
     path: '/article/list',
     name: 'ARTICLE-LIST',
@@ -131,9 +130,6 @@ const router = createRouter({
     //   ]
     // },
     ...childComponents
-
-
-
   ]
 })
 

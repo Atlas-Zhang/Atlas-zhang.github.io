@@ -3,14 +3,15 @@
         <div class="font-bold text-2xl my-3 md:my-0 ">
             关于我
         </div>
-        <div class="py-2 font-bold text-lg text-[#8c4e35] w-full italic">个人介绍(Personal Intro)</div>
+        <div class="py-2  mt-2 md:mt-0 font-bold text-lg text-[#8c4e35] w-full italic">个人介绍(Personal Intro)</div>
         <div class="mt-1  text-black">
-             一位软件开发工程师，技术栈面向全栈:前端(React,Vue)/后端(SpringBoot、Django)/运维(单实例、多实例集群)/深度算法(CV模型)均有涉猎
+             一位全栈软件开发工程师:前端(React,Vue)/后端(SpringBoot、Django)/运维(单实例、多实例集群)/深度算法(CV模型)均有涉猎
             <br/>
-            <strong>语言偏向：</strong>Python/Java/HTML三件套
-            <strong> 数据库：</strong>MySQL/Redis/MongoDB
+            <span class="my-3 lg:my-0"><strong >语言偏向：</strong>Python/Java/JS/HTML/CSS </span>
+            <br/>
+            <span class="my-3 lg:my-0"><strong> 数据库：</strong>MySQL/Redis/MongoDB</span>
         </div>
-        <div class="py-2 font-bold text-lg text-[#8c4e35] w-full italic">个人标签(Personal Tag)</div>
+        <div class="py-2  mt-5 md:mt-0 font-bold text-lg text-[#8c4e35] w-full italic">个人标签(Personal Tag)</div>
         <div class="mt-1   w-full  ml-5 py-2  flex items-center gap-x-4 flex-wrap gap-y-2">
             <span class="p-1.5  py-1 pl-2 bg-[#f7f7f9] text-[#423c4a] border-2 border-[#E3E3EF] rounded-lg">
                 Software Engineer
@@ -18,24 +19,20 @@
             <span class="p-1.5 py-1 pl-2 ml-2 bg-[#f7f7f9] text-[#423c4a] border-2 border-[#E3E3EF] rounded-lg">
                 English Learner
             </span>
-
             <span class="p-1.5 py-1 pl-2 ml-2 bg-[#f7f7f9] text-[#423c4a] border-2 border-[#E3E3EF] rounded-lg">
                 Book Reader  
             </span>
-
         </div>
-        
-        <div class="py-2 font-bold text-lg text-[#8c4e35] w-full italic">个人项目(Personal Project)
+        <div class="py-2 mt-5 md:mt-0 font-bold text-lg text-[#8c4e35] w-full italic">个人项目(Personal Project)
             <span class="text-sm font-bold italic text-gray-400 ml-5">
                注：以下列出的仅为个人业余开发的项目，非工作中的
             </span>
-
         </div>
         <div class="my-2 text-lg w-full font-bold text-[#4B6CE9] italic">
             Project1 -> SD 绘画助手
         </div>
         <!-- SD 绘画助手 -->
-        <div class="  w-full py-5 ">
+        <div class=" py-2 lg:py-5 w-full  ">
             <div class="flex gap-x-8 md:gap-x-16 items-center ">
                 <div class="font-semibold text-xs md:text-lg  px-3 md:px-5 py-0.5 bg-[#ffe5e6] text-black rounded-[3px]   border-2 border-[#E3E3EF]">
                     小程序(Mini Programe)
@@ -55,10 +52,10 @@
                 <div class="text-[#423c4a] font-bold ">
                     打开微信扫一扫二维码即可体验
                 </div>
-                <img class="w-48 p-3 my-3 ml-10 border-2 rounded-md " src="../../assets/personal/sd_qr_code.jpg"/>
+                <img class="w-48 p-3 my-3 ml-10 border-2 rounded-md " src="../../../public/sd_qr_code.jpg"/>
             </div>
             <div>
-                <div class="text-[#423c4a] mb-1 font-bold">
+                <div class="text-[#423c4a] my-5 lg:my-1   font-bold">
                     项目部分截图，左右滑动(Some Screenshot Of Project，Swipe Left and Right)
                 </div>
                 <swiper
@@ -80,13 +77,10 @@
                 </swiper>
             </div>
         </div>
-        
-        
         <div class="my-2 text-lg w-full font-bold text-[#4B6CE9] italic">
             Project2 -> 智能图像工具箱
         </div>
-
-        <div class=" w-full py-5 ">
+        <div class=" py-2 lg:py-5 w-full">
             <div class="flex gap-x-8 md:gap-x-16 items-center ">
                 <div class="font-medium text-xs md:text-lg  px-3 md:px-5 py-0.5 bg-[#ffe5e6] text-black rounded-[3px]   border-2 border-[#E3E3EF]">
                     网站(Website)
@@ -103,7 +97,7 @@
                 <strong>技术栈：</strong>React + Material Ui + Django + Redis + ComfyUi + MySQL +  其他第三方Python/js 库/框架
             </div>
             <div>
-                <div class="text-[#423c4a] mb-1 font-bold">
+                <div class="text-[#423c4a] my-5 lg:my-1  font-bold">
                     项目部分截图，可左右滑动(Some Screenshot Of Project，Swipe Left and Right)
                 </div>
                 <swiper
@@ -125,6 +119,53 @@
                 </swiper>
             </div>
         </div>
+        <div class="my-2 text-lg w-full font-bold text-[#4B6CE9] italic">
+            Project3 -> 大文件传输工具
+        </div>
+        <div class=" py-2 lg:py-5 w-full">
+            <div class="flex gap-x-8 md:gap-x-16 items-center ">
+                <div class="font-medium text-xs md:text-lg  px-3 md:px-5 py-0.5 bg-[#ffe5e6] text-black rounded-[3px]   border-2 border-[#E3E3EF]">
+                    大文件
+                </div>
+                <div class="font-semibold text-xs md:text-lg  px-3 md:px-5 py-0.5 bg-[#ffffff] text-[#4B6CE9] rounded-[3px]   border-2 border-[#b3d0f7]">
+                    分片传输
+                </div>
+                <div class="font-medium text-xs md:text-lg  px-3 md:px-5 py-0.5 bg-[#ffe5e6] text-black rounded-[3px]   border-2 border-[#E3E3EF]">
+                    断点续传
+                </div>
+            </div>
+            <div class="mt-5 my-3">
+                <strong>介绍：</strong> 面对 大文件批量上传/下载 场景，采用文件分 chunk 批量传输、服务端/客户端 buffer 非阻塞IO 、chunk内容 hash 校验完整性 等策略，提高传输速度，
+                采用 异步 + 协程(coroutine) 提高线程利用率，NIO多路复用 让线程在多任务切换来减少阻塞，支持断点续传功能；并且，采用 webSocket 协议让 UI前端界面 可以实时更新 
+                传输进度
+            </div>
+            <div class="mb-3">
+                <strong>技术栈：</strong>React + asyncio/ aiohttp +  其他第三方Python/js 库/框架
+            </div>
+            <div>
+                <div class="text-[#423c4a] my-5 lg:my-1  font-bold">
+                    项目部分截图，可左右滑动(Some Screenshot Of Project，Swipe Left and Right)
+                </div>
+                <swiper
+                    :scrollbar="true"
+                    :pagination="{
+                    dynamicBullets: true,
+                    }"
+                    :modules="modules"
+                    class="mySwiper"
+                >
+                    <swiper-slide v-for="(item,index) in project3Data.pics" :key="index">
+                            <div class="flex items-center gap-x-3">
+                                <div class=" font-serif text-lg md:text-xl font-bold ">{{ item.title }} </div>
+                                <img src="../../assets/icon/arrowhead-right.png"  class="w-10 class-arrow" loading="lazy"/>
+                                
+                            </div>
+                            <img class="main-class" :src="'/large_file/' + item.img" loading="lazy"/>                    
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </div>
+        
         <div class="italic text-sm md:text-lg text-gray-400 mt-5 w-full">
             个人微信：a460467324；更多内容，后面将不断补充...
         </div>
@@ -169,7 +210,6 @@ const project1Data = ref({
 })
 
 
-
 const project2Data = ref({
     pics: [
         {
@@ -202,6 +242,26 @@ const project2Data = ref({
         }
     ]
 })
+
+
+const project3Data = ref({
+    pics: [
+        {
+            title: "上传前",
+            img: "A.PNG"
+        },
+       
+        {
+            title: "上传中",
+            img: "b.png"
+        },
+        {
+            title: "上传完成",
+            img: "c.png"
+        }
+    ]
+})
+
 
 const modules = ref([Pagination])
 onMounted(() => {
@@ -244,7 +304,7 @@ padding-bottom: 30px;
   display: block;
   width: auto;
   height: 500px;
-  object-fit: cover;
+  object-fit: contain;
   border: 2px solid black;
   border-radius: 5px;
   
@@ -264,7 +324,8 @@ padding-bottom: 30px;
     }
 
     .swiper-slide .main-class{
-        object-fit:cover;
+        object-fit:contain;
+        height: auto;
     }
     
 }
