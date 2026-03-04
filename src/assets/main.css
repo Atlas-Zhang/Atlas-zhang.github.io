@@ -1,48 +1,42 @@
 @import './base.css';
 
-
-
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 0.7);
-  transition: 0.4s;
-
+  color: var(--c-accent);
+  transition: opacity 0.15s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+/* ─── Site card ─────────────────────────────────────── */
+.site-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--c-border);
+  box-shadow: var(--c-shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  /* prevent grid blowout */
+  min-width: 0;
+  overflow: hidden;
 }
 
-@media (min-width: 1024px) {
-  body {
-
-    display: flex;
-    flex-direction: column;
-
-
-    /* place-items: center; */
-
-  }
-
-
-  /* #app.home-class{
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1.5fr 6fr;
-  } */
+.site-card:hover {
+  box-shadow: var(--c-shadow-lg);
+  transform: translateY(-3px);
 }
 
-
-/* 左侧导航栏 */
+/* ─── Sidebar ────────────────────────────────────────── */
 .max-h-custom {
   max-height: calc(100vh - 17rem);
 }
 
-.demo-pagination-block {
-  margin-top: 10px;
-  background-color: red;
-  max-width: 100%;
+/* ─── Scrollbar subtle ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-border);
+  border-radius: 3px;
 }

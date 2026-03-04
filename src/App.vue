@@ -67,7 +67,7 @@ watch(
     <div class="relative h-full">
       <HeadBar></HeadBar>
     </div>
-    <div class="mt-16 relative lg:flex lg:flex-col lg:items-center">
+    <div class="mt-14">
       <RouterView />
     </div>
   </div>

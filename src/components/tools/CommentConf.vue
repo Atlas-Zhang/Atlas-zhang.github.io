@@ -1,231 +1,273 @@
 <template>
-    <div class="text-black">
-        <div>
-            <div class=" flex flex-col  ">
-                <textarea
-                v-model="dataForm.comment"
-                class="w-full h-[100px] lg:h-[200px] text-gray-600  border-gray-600 text-md placeholder-gray-300 rounded-t-lg"
-                placeholder="留下你的评论,请文明发言" >
-                </textarea>
-                <div class="  bg-gray-300   cursor-pointer flex justify-end pr-1 rounded-b-lg py-1 border-b border-x border-black ">
-                    <span class="py-1 px-2 hover:bg-gray-400 rounded-lg focus:hover:bg-gray-500">{{'&#128512;'}}</span>
-                </div>
-            </div>
-            <div class="flex  flex-col lg:flex-row gap-2  mt-2 px-2">
-                <div class="flex flex-col sm:flex-row gap-4 ">
-                    <input placeholder="请输入昵称" 
-                    v-model="dataForm.name"
-                    class="py-1.5 border text-sm text-black placeholder-gray-300 border-gray-300 rounded-lg px-2.5">
-                    <input placeholder="请输入邮箱"
-                    v-model="dataForm.email"
-                    class="py-1.5 border text-sm text-black placeholder-gray-300 border-gray-300 rounded-lg px-2.5">
-                </div>
-                <div class="flex justify-end">
-                      <div class="text-black border border-gray-500 px-3 py-0.5 rounded-lg bg-gray-200 hover:bg-gray-400 hover:border-black cursor-pointer"
-                      @click="submitComment">
-                        提交
-                      </div>  
-                </div>
-            </div>
+  <div class="comment-conf">
+    <!-- Input form -->
+    <div class="comment-form">
+      <textarea
+        v-model="dataForm.comment"
+        class="comment-textarea"
+        placeholder="写下你的评论..."
+      />
+      <div class="form-row">
+        <div class="form-inputs">
+          <input
+            v-model="dataForm.name"
+            class="form-input"
+            placeholder="昵称 *"
+          />
+          <input
+            v-model="dataForm.email"
+            class="form-input"
+            placeholder="邮箱（选填）"
+          />
         </div>
-        <div class="mt-5  ">
-            <span class="text-lg text-gray-500 tracking-wider">{{dataForm.pagination.totalNum}}条评论</span>
-            <div class="bg-gray-100  mt-2 p-3 lg:p-8 rounded-lg ">
-                <CommentItem v-for="(item,index) in dataForm.data" :key="index"
-                :name="item.name"
-                :comment="item.comment"
-                :createAt="item.createAt">
-                </CommentItem>
-                <div class="flex justify-center mt-10" v-if="dataForm.data.length < dataForm.pagination.totalNum">
-                <div 
-                @click="queryMoreComment"
-                class=" w-1/2 bg-gray-200 text-center py-1 rounded-md text-gray-800 border-dashed border-gray-800 cursor-pointer ">
-                    更多
-                </div>
-                </div>
-
-            </div>
-        </div>
+        <button class="submit-btn" @click="submitComment">提交评论</button>
+      </div>
     </div>
+
+    <!-- Comment list -->
+    <div v-if="dataForm.data.length > 0" class="comment-list">
+      <p class="comment-count">{{ dataForm.pagination.totalNum }} 条评论</p>
+      <CommentItem
+        v-for="(item, index) in dataForm.data"
+        :key="index"
+        :name="item.name"
+        :comment="item.comment"
+        :createAt="item.createAt"
+      />
+      <div class="load-more-wrap" v-if="dataForm.data.length < dataForm.pagination.totalNum">
+        <button class="load-more-btn" @click="queryMoreComment">加载更多</button>
+      </div>
+    </div>
+
+    <p v-else class="no-comment">暂无评论，来发表第一条吧</p>
+  </div>
 </template>
+
 <script setup>
-import {  ref,onMounted,defineProps,watch } from 'vue'
-import { _submitCommentData,_queryCommentData} from '@/api/comment/CommentApi.js'
-import FormInput from '../form/FormInput.vue';
-import  {validateEmail} from '../../utils/tool.js'
+import { ref, onMounted, defineProps, watch } from 'vue'
+import { _submitCommentData, _queryCommentData } from '@/api/comment/CommentApi.js'
+import { validateEmail } from '../../utils/tool.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CommentItem from './CommentItem.vue'
-import { useRouter } from 'vue-router'
-const router = useRouter()
 
+const Props = defineProps({
+  totalNum: { type: Number, default: 0 },
+  dataType: { type: String, default: 'TOOL_BOX' },
+  relateId: { type: String, default: '' },
+  typeName: { type: String, default: '' },
+})
 
 const dataForm = ref({
-    totalNum: 0,
-    isEmoilVisible: false,
-    name: '',
-    comment:'',
-    email: '',
-    emojiList: [
-     '&#128512;','&#128512;','&#128536;','&#129322;','&#128077;'],
-    pagination: {
-        pageSize: 10,
-        current: 1,
-        sort: 'createAt',
-        direction: 'DESC',
-        totalNum: 0
-    },
-    data: []
-})
-const Props = defineProps({
-    totalNum: {
-        type: Number,
-        default: 0
-    },
-    dataType :{
-        type: String,
-        default: 'TOOL_BOX'
-    },
-    relateId: {
-        type: String,
-        default: ''
-    },
-    typeName: {
-        type: String,
-        default: ''
-    }
+  name: '',
+  comment: '',
+  email: '',
+  pagination: { pageSize: 10, current: 1, sort: 'createAt', direction: 'DESC', totalNum: 0 },
+  data: [],
 })
 
-watch(
-    ()=> Props.relateId,
-    (newVal) => {
-        queryCommentData()
-    }
-)
+watch(() => Props.relateId, () => queryCommentData())
 
-function validData(){
-    if(dataForm.value.email){
-        if(!validateEmail(dataForm.value.email)){
-            ElMessage({
-            type: 'warning',
-            message: '提交邮箱格式有误',
-            })
-            return false;
-        }
-    }
-    if(!dataForm.value.name){
-        ElMessage({
-            type: 'warning',
-            message: '昵称为空，检查后重新提交',
-            })
-            return false;
-     }
-     if(!dataForm.value.comment){
-        ElMessage({
-            type: 'warning',
-            message: '评论为空，检查后重新提交',
-            })
-            return false;
-     }
-     return true;
-    
+function validData() {
+  if (dataForm.value.email && !validateEmail(dataForm.value.email)) {
+    ElMessage({ type: 'warning', message: '邮箱格式有误' })
+    return false
+  }
+  if (!dataForm.value.name) {
+    ElMessage({ type: 'warning', message: '请填写昵称' })
+    return false
+  }
+  if (!dataForm.value.comment) {
+    ElMessage({ type: 'warning', message: '评论内容不能为空' })
+    return false
+  }
+  return true
 }
 
-async function queryCommentData(){
-    if(Props.relateId){
-        const result =  await _queryCommentData({
-            relateId: Props.relateId,
-            type: Props.dataType,
-            page: dataForm.value.pagination.current,
-            size: dataForm.value.pagination.pageSize,
-            sort: dataForm.value.pagination.sort,
-            direction: dataForm.value.pagination.direction
-        })
-        if(result){
-            dataForm.value.data = result.content
-            dataForm.value.pagination.totalNum = result.totalElements
-
-        }
-    }
+async function queryCommentData() {
+  if (!Props.relateId) return
+  const result = await _queryCommentData({
+    relateId: Props.relateId,
+    type: Props.dataType,
+    page: dataForm.value.pagination.current,
+    size: dataForm.value.pagination.pageSize,
+    sort: dataForm.value.pagination.sort,
+    direction: dataForm.value.pagination.direction,
+  })
+  if (result) {
+    dataForm.value.data = result.content
+    dataForm.value.pagination.totalNum = result.totalElements
+  }
 }
 
-
-async function queryMoreComment(){
-
-    if(dataForm.value.data.length < dataForm.value.pagination.totalNum){
-        const result =  await _queryCommentData({
-            relateId: Props.relateId,
-            type: Props.dataType,
-            page: dataForm.value.pagination.current,
-            size: dataForm.value.pagination.pageSize,
-            sort: dataForm.value.pagination.sort,
-            direction: dataForm.value.pagination.direction
-        })
-        if(result){
-     
-            dataForm.value.data =  dataForm.value.data.concat(result.content)
-   
-        }
-    }
+async function queryMoreComment() {
+  if (dataForm.value.data.length >= dataForm.value.pagination.totalNum) return
+  const result = await _queryCommentData({
+    relateId: Props.relateId,
+    type: Props.dataType,
+    page: dataForm.value.pagination.current,
+    size: dataForm.value.pagination.pageSize,
+    sort: dataForm.value.pagination.sort,
+    direction: dataForm.value.pagination.direction,
+  })
+  if (result) {
+    dataForm.value.data = dataForm.value.data.concat(result.content)
+  }
 }
 
-/**
- * 数据重置
- */
-function resetData(){
-    dataForm.value.name = ''
-    dataForm.value.comment = ''
-    dataForm.value.email = ''
+function resetData() {
+  dataForm.value.name = ''
+  dataForm.value.comment = ''
+  dataForm.value.email = ''
 }
 
-async function submitComment(){
-
-    if(!validData()){
-        return;
-    }
-
-    ElMessageBox.confirm(
-    '确定要提交该评论么?',
-    '提示',
-    {
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      type: 'warning',
-    }
-  )
-    .then(async () => {
-        const result = await _submitCommentData({
-            relateId: Props.relateId,
-            name: dataForm.value.name,
-            email: dataForm.value.email,
-            comment: dataForm.value.comment,
-            typeName: Props.typeName,
-            type: Props.dataType,
-            link: window.location.href,
-        })
-        if(result){
-            ElMessage({
-            type: 'success',
-            message: '提交成功，正则审核中',
-            })
-            resetData()
-        }
+async function submitComment() {
+  if (!validData()) return
+  ElMessageBox.confirm('确定提交这条评论？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(async () => {
+    const result = await _submitCommentData({
+      relateId: Props.relateId,
+      name: dataForm.value.name,
+      email: dataForm.value.email,
+      comment: dataForm.value.comment,
+      typeName: Props.typeName,
+      type: Props.dataType,
+      link: window.location.href,
     })
-    .catch(() => {
-      ElMessage({
-        type: 'error',
-        message: '提交失败',
-      })
-    })
-    
+    if (result) {
+      ElMessage({ type: 'success', message: '提交成功，审核中' })
+      resetData()
+    }
+  }).catch(() => {})
 }
 
-onMounted(() => {
-    queryCommentData()
-})
-
-
-
+onMounted(() => queryCommentData())
 </script>
-<style lang="">
-    
+
+<style scoped>
+.comment-conf {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Form ──────────────────────────────────────── */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px 14px;
+  font-size: 0.9375rem;
+  color: #09090b;
+  background: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.comment-textarea:focus {
+  border-color: #2563eb;
+  background: #fff;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-inputs {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.form-input {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: #09090b;
+  background: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: #2563eb;
+  background: #fff;
+}
+
+.submit-btn {
+  padding: 8px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.submit-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ── Comment list ──────────────────────────────── */
+.comment-count {
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  margin-bottom: 16px;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-comment {
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.load-more-btn {
+  padding: 7px 24px;
+  font-size: 0.875rem;
+  color: #52525b;
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.load-more-btn:hover {
+  background: #e4e4e7;
+}
 </style>

@@ -2,77 +2,40 @@
   <li v-if="children && children.length > 0">
     <button
       type="button"
-      class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-      aria-controls="dropdown-example"
+      class="sidebar-item w-full text-left"
       data-collapse-toggle="dropdown-example"
+      aria-controls="dropdown-example"
     >
-      <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>{{ name }}</span>
-      <span
-        class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"
-        >{{ children ? children.length : 0 }}</span
-      >
-      <svg
-        sidebar-toggle-item
-        class="w-6 h-6"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clip-rule="evenodd"
-        ></path>
+      <span class="flex-1">{{ name }}</span>
+      <svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
       </svg>
     </button>
-
-    <ul id="dropdown-example" class="hidden py-2 space-y-2">
+    <ul id="dropdown-example" class="hidden pl-3 mt-0.5 space-y-0.5">
       <li v-for="(item, index) in children" :key="index">
-        <a
-          @click="skipView(item)"
-          class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 cursor-pointer"
-          >{{ item.name }}</a
-        >
+        <a @click="skipView(item)" class="sidebar-item block">{{ item.name }}</a>
       </li>
     </ul>
   </li>
 
   <li v-else>
-    <a
-      @click="changeTag"
-      class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-    >
-      <span class="flex-1 ml-3 whitespace-nowrap">{{ name }}</span>
-      <span
-        class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"
-        >{{ totalNum }}</span
-      >
+    <a @click="changeTag" class="sidebar-item flex items-center justify-between">
+      <span>{{ name }}</span>
+      <span class="count-badge">{{ totalNum }}</span>
     </a>
   </li>
 </template>
+
 <script setup>
 import router from '@/router'
-import { ref, defineEmits, defineProps, onMounted } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 
 const emitFunc = defineEmits(['changeTagId'])
-
 const Props = defineProps({
-  name: {
-    type: String,
-    default: ''
-  },
-  totalNum: {
-    type: Number,
-    default: 0
-  },
-  tagId: {
-    type: String,
-    default: ''
-  },
-  children: {
-    type: Array,
-    default: () => []
-  }
+  name: { type: String, default: '' },
+  totalNum: { type: Number, default: 0 },
+  tagId: { type: String, default: '' },
+  children: { type: Array, default: () => [] },
 })
 
 function skipView(item) {
@@ -86,4 +49,30 @@ function changeTag() {
   emitFunc('changeTagId', Props.tagId)
 }
 </script>
-<style lang=""></style>
+
+<style scoped>
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  font-size: 0.875rem;
+  color: #3f3f46;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.sidebar-item:hover {
+  background: #ffffff;
+  color: #09090b;
+}
+
+.count-badge {
+  font-size: 0.7rem;
+  color: #a1a1aa;
+  background: #e4e4e7;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-weight: 500;
+}
+</style>

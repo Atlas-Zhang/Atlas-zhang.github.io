@@ -1,69 +1,74 @@
 <template>
-  <div
-    class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
-  >
-    <div
-      class="p-4 bg-white rounded-lg md:p-6 dark:bg-gray-800"
-      id="about"
-      role="tabpanel"
-      aria-labelledby="about-tab"
-    >
-      <h2 class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-        <span v-if="type === 'VIP'" class="text-red-600 mr-1 font-bold">[VIP]</span>
-        {{ title }}
-      </h2>
-      <p class="mb-2 text-gray-500 dark:text-gray-400">
-        {{ desc }}
-      </p>
-      <a
-        href="#"
-        @click="
-          () => {
-            router.push(`/article/${articleId}/detail`)
-          }
-        "
-        class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700"
-      >
-        详情
-        <svg
-          class="w-6 h-6 ml-1"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-      </a>
+  <div class="site-card article-card" @click="() => router.push(`/article/${articleId}/detail`)">
+    <div class="article-head" v-if="type === 'VIP'">
+      <span class="vip-badge">VIP</span>
     </div>
+    <h3 class="article-title">{{ title }}</h3>
+    <p class="article-desc">{{ desc }}</p>
+    <span class="article-link">阅读全文 →</span>
   </div>
 </template>
+
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { defineProps } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
-const Props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
-  desc: {
-    type: String,
-    default: ''
-  },
-  type: {
-    type: String,
-    default: 'NORMAL'
-  },
-  articleId: {
-    type: String,
-    default: ''
-  }
+defineProps({
+  title: { type: String, default: '' },
+  desc: { type: String, default: '' },
+  type: { type: String, default: 'NORMAL' },
+  articleId: { type: String, default: '' },
 })
 </script>
-<style scoped lang="less"></style>
+
+<style scoped>
+.article-card {
+  padding: 18px 20px;
+  margin-bottom: 10px;
+}
+
+.article-head {
+  margin-bottom: 6px;
+}
+
+.vip-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.article-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #09090b;
+  line-height: 1.45;
+}
+
+.article-desc {
+  font-size: 0.8125rem;
+  color: #71717a;
+  margin-top: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.55;
+}
+
+.article-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #2563eb;
+}
+
+.article-card:hover .article-link {
+  opacity: 0.75;
+}
+</style>

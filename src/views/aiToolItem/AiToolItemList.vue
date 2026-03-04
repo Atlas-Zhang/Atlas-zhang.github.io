@@ -5,7 +5,7 @@
     aria-controls="default-sidebar"
     type="button"
     id="default-sidebar-btn"
-    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-[#6e6e73] rounded-lg sm:hidden hover:bg-[#f5f5f7] focus:outline-none transition-colors"
   >
     <span class="sr-only">Open sidebar</span>
     <svg
@@ -25,11 +25,11 @@
 
   <aside
     id="default-sidebar"
-    class="fixed top-2 mt-16 left-1 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+    class="fixed top-2 mt-14 left-0 z-40 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <ul class="space-y-2 font-medium">
+    <div class="h-full px-2 py-3 overflow-y-auto bg-zinc-50 border-r border-zinc-100">
+      <ul class="space-y-0.5">
         <sider-bar-item
           v-for="(item, index) in resultTags"
           :key="index"
@@ -37,15 +37,14 @@
           :name="item.name"
           @changeTagId="clickTagIdList"
           :total-num="item.number"
-        >
-        </sider-bar-item>
+        />
       </ul>
     </div>
   </aside>
 
-  <div class="  sm:absolute sm:left-64 sm:top-0 sm:right-0 sm:bottom-0  ">
-    <div class="p-2 lg:p-4 h-screen">
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-2 lg:gap-2 mb-4">
+  <div class="sm:absolute sm:left-56 sm:top-0 sm:right-0 sm:bottom-0 bg-white">
+    <div class="p-4 lg:p-6">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 mb-4">
         <CardContentInfo
           v-for="(item, index) in itemData.data"
           :key="index"

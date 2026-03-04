@@ -1,51 +1,93 @@
 <template>
-  <div
-    class="bg-white shadow-md rounded-lg overflow-hidden flex items-center p-3 w-full hover:-translate-y-1 hover:translate-x-1 transition duration-500 ease-in-out"
-  >
-    <img
-      class="w-auto h-16 lg:h-10 object-cover object-center"
-      :src="logo.replace('http://', 'https://') + '?timestamp=' + Date.parse(new Date()) / 1000"
-    />
-    <div class="pl-5">
-      <h2 class="font-bold text-xl lg:text-lg mb-1 text-gray-500">{{ title }}</h2>
-      <p class="text-gray-500 text-base lg:text-sm">
-        {{ desc }}
-      </p>
-      <a style="color: #449cf9" class="text-sm cursor-pointer lg:text-xs" @click="skipDetail"
-        >查看详情</a
-      >
+  <div class="site-card tool-card" @click="skipDetail">
+    <div class="tool-icon">
+      <img
+        :src="logo.replace('http://', 'https://') + '?timestamp=' + Date.parse(new Date()) / 1000"
+        alt=""
+      />
     </div>
+    <div class="tool-body">
+      <h3 class="tool-title">{{ title }}</h3>
+      <p class="tool-desc">{{ desc }}</p>
+    </div>
+    <span class="tool-arrow">→</span>
   </div>
 </template>
+
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { defineProps } from 'vue'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const Props = defineProps({
-  keyId: {
-    type: String,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  logo: {
-    type: String,
-    default: ''
-  },
-  link: {
-    type: String,
-    default: 'www.baidu.com'
-  },
-  desc: {
-    type: String,
-    default: ''
-  }
+  keyId: { type: String, default: '' },
+  title: { type: String, default: '' },
+  logo: { type: String, default: '' },
+  desc: { type: String, default: '' },
 })
 
 function skipDetail() {
   router.push(`/ai-tool-item/${Props.keyId}/detail`)
 }
 </script>
-<style lang=""></style>
+
+<style scoped>
+.tool-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 14px;
+}
+
+.tool-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f4f4f5;
+}
+
+.tool-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tool-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tool-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #09090b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tool-desc {
+  font-size: 0.8125rem;
+  color: #71717a;
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.tool-arrow {
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: #a1a1aa;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.tool-card:hover .tool-arrow {
+  color: #2563eb;
+  transform: translateX(2px);
+}
+</style>

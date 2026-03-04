@@ -1,60 +1,41 @@
 <template>
-  <div class="flex min-h-screen flex-col w-full lg:w-3/4 mt-3 justify-start overflow-hidden bg-gray-50 py-8 lg:py-8">
-    <div class="max-w-8xl lg:ml-5">
-      <div class="flex px-4 lg:pt-4 lg:pb-10  w-auto">
-        <a
-          @click="
-            () => {
-              router.push('/article/list')
-            }
-          "
-          class="flex items-center font-semibold text-sm lg:text-2xl w-full leading-6 text-slate-700 dark:text-slate-200 cursor-pointer hover:bg-transparent hover:scale-105"
-        >
-          <ArrowSmallLeftIcon class="w-10 font-bold mr-2"></ArrowSmallLeftIcon>
-          返回
-        </a>
-      </div>
-    </div>
-    <article class="prose w-full lg:prose-xl max-w-full p-5 bg-white  rounded-2xl">
-      <h1 class="text-4xl lg:text-5xl">{{ itemData.title }}</h1>
-      <div class="flex flex-col justify-between text-sm lg:flex-row cursor-pointer">
-        <time class="mb-1"
-          ><span class="text-sm mr-2 text-gray-400 font-serif">发表于:</span
-          >{{ itemData.createAt }}</time
-        >
-        <time class="mb-1"
-          ><span class="text-sm mr-2 text-gray-500 font-serif">最近更新:</span
-          >{{ itemData.updateAt }}</time
-        >
-      </div>
-      <div class="text-sm">
-        <span class="font-500">
-          <span class="text-gray-500 font-serif mr-2">作者:</span>
-          {{ itemData.author }}
-        </span>
-      </div>
-      <!-- <div class="flex items-center mt-2">
-        <div class="pl-2">
-          <LikeIcon :is-like="itemData.isLike" @changeLike="changeLikeStatus"> </LikeIcon>
+  <div class="detail-page">
+    <div class="detail-container">
+
+      <!-- Back -->
+      <a class="back-link" @click="() => router.push('/article/list')">
+        <ArrowSmallLeftIcon class="w-4 h-4" />
+        返回列表
+      </a>
+
+      <!-- Article -->
+      <article class="article-card">
+        <h1 class="article-title">{{ itemData.title }}</h1>
+
+        <div class="article-meta">
+          <span>{{ itemData.author }}</span>
+          <span class="meta-dot">·</span>
+          <span>发表于 {{ itemData.createAt }}</span>
+          <span class="meta-dot">·</span>
+          <span>更新于 {{ itemData.updateAt }}</span>
         </div>
 
-        <span class="ml-2 text-gray-400 text-xl">{{ itemData.favoriNum }}</span>
-      </div> -->
-      <div v-html="itemData.htmlContent" class="article-content" v-highlight></div>
-      <!-- ... -->
-    </article>
+        <div class="article-divider"></div>
 
-    <div class="flex flex-col w-full  p-2 lg:p-10 bg-white mt-10 gap-3 rounded-lg">
-      <span class="border-l-4 pl-3 border-blue-600 text-black font-bold  lg:text-2xl mb-5">
-        用户评论
-      </span>
-      <CommentConf
-      :relate-id="articleId"
-      :type-name="itemData.title"
-      :data-type="'ARTICLE'">
-      </CommentConf>
+        <div class="article-body" v-html="itemData.htmlContent" v-highlight></div>
+      </article>
+
+      <!-- Comments -->
+      <section class="comment-card">
+        <h2 class="comment-heading">用户评论</h2>
+        <CommentConf
+          :relate-id="articleId"
+          :type-name="itemData.title"
+          :data-type="'ARTICLE'"
+        />
+      </section>
+
     </div>
-
   </div>
 </template>
 
@@ -65,21 +46,15 @@ import { ArrowSmallLeftIcon } from '@heroicons/vue/24/solid'
 import { assignCopy } from '@/utils/util.js'
 import { _likeArticle, _cancelLikeArticle, _queryArticleItem } from '@/api/items/ArticleItemApi.js'
 import { useRouter } from 'vue-router'
-import LikeIcon from '@/components/icons/LikeIcon.vue'
 import { ElLoading } from 'element-plus'
 import CommentConf from '@/components/tools/CommentConf.vue'
+
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const Props = defineProps({
-  articleId: {
-    type: String,
-    default: ''
-  }
+  articleId: { type: String, default: '' }
 })
 
-const resultTags = ref({
-  data: []
-})
 const itemData = ref({
   tags: [],
   title: '',
@@ -92,42 +67,12 @@ const itemData = ref({
   updateAt: '',
   isLike: 'NO',
   favoriNum: 0,
-
-  pageObj: {
-    page: 1,
-    size: 12,
-    total: 0,
-    sort: {
-      direction: 'DESC',
-      order: 'updateAt'
-    }
-  }
 })
-
-async function changeLikeStatus(val) {
-  if (val === 'NO') {
-    const result = await _cancelLikeArticle(Props.articleId)
-    if (result) {
-      queryData()
-    }
-    proxy.$message('操作成功', 'success')
-  } else if (val === 'YES') {
-    const result = await _likeArticle(Props.articleId)
-    if (result) {
-      queryData()
-    }
-    proxy.$message('操作成功', 'success')
-  } else {
-    proxy.$message('操作异常', 'error')
-  }
-}
 
 async function queryData() {
   if (Props.articleId) {
     const loading = ElLoading.service({
-      lock: true,
-      text: '加载中',
-      background: 'rgba(0, 0, 0, 0.3)'
+      lock: true, text: '加载中', background: 'rgba(0, 0, 0, 0.3)'
     })
     const result = await _queryArticleItem(Props.articleId)
     if (result) {
@@ -136,26 +81,234 @@ async function queryData() {
     }
   }
 }
+
 onMounted(async () => {
   initFlowbite()
-
   queryData()
 })
 </script>
 
-<style scoped lang="less">
-.article-content {
-  /deep/ li p {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+<style scoped>
+/* ── Page shell ──────────────────────────────── */
+.detail-page {
+  min-height: 100vh;
+  background: #f4f5f7;
+  padding: 32px 20px 80px;
+}
+
+.detail-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ── Back link ───────────────────────────────── */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #71717a;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: color 0.15s;
+}
+
+.back-link:hover {
+  color: #09090b;
+}
+
+/* ── Article card ────────────────────────────── */
+.article-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e4e4e7;
+  padding: 40px 48px;
+}
+
+.article-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #09090b;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: #a1a1aa;
+}
+
+.meta-dot {
+  color: #d4d4d8;
+}
+
+.article-divider {
+  height: 1px;
+  background: #f4f4f5;
+  margin: 24px 0;
+}
+
+/* ── Article body ────────────────────────────── */
+.article-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #3f3f46;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Headings */
+.article-body :deep(h1),
+.article-body :deep(h2),
+.article-body :deep(h3),
+.article-body :deep(h4) {
+  font-weight: 700;
+  color: #09090b;
+  letter-spacing: -0.015em;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  line-height: 1.3;
+}
+
+.article-body :deep(h1) { font-size: 1.625rem; }
+.article-body :deep(h2) { font-size: 1.375rem; border-bottom: 1px solid #f4f4f5; padding-bottom: 0.4em; }
+.article-body :deep(h3) { font-size: 1.125rem; }
+.article-body :deep(h4) { font-size: 1rem; }
+
+/* Paragraphs */
+.article-body :deep(p) {
+  margin-top: 0;
+  margin-bottom: 1.25em;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Lists */
+.article-body :deep(ul),
+.article-body :deep(ol) {
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
+}
+
+.article-body :deep(li) {
+  margin-bottom: 0.35em;
+}
+
+.article-body :deep(li p) {
+  margin-top: 0;
+  margin-bottom: 0;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Code inline */
+.article-body :deep(code) {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.875em;
+  background: #f4f4f5;
+  color: #e11d48;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Code block */
+.article-body :deep(pre) {
+  background: #18181b;
+  border-radius: 10px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin-bottom: 1.5em;
+}
+
+.article-body :deep(pre code) {
+  background: none;
+  color: #e4e4e7;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+/* Blockquote */
+.article-body :deep(blockquote) {
+  border-left: 3px solid #2563eb;
+  padding-left: 16px;
+  margin-left: 0;
+  color: #71717a;
+  font-style: italic;
+  margin-bottom: 1.25em;
+}
+
+/* Links */
+.article-body :deep(a) {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Images */
+.article-body :deep(img) {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+  margin: 8px 0;
+}
+
+/* Tables */
+.article-body :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  margin-bottom: 1.5em;
+}
+
+.article-body :deep(th) {
+  background: #f4f4f5;
+  font-weight: 600;
+  color: #09090b;
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid #e4e4e7;
+}
+
+.article-body :deep(td) {
+  padding: 9px 14px;
+  border: 1px solid #e4e4e7;
+  color: #3f3f46;
+}
+
+/* ── Comment card ────────────────────────────── */
+.comment-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e4e4e7;
+  padding: 32px 48px;
+  margin-top: 20px;
+}
+
+.comment-heading {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #09090b;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f4f4f5;
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .article-card,
+  .comment-card {
+    padding: 24px 20px;
   }
 
-
-  /deep/  p {
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+  .article-title {
+    font-size: 1.5rem;
   }
 }
 </style>
