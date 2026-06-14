@@ -7,11 +7,11 @@
       <div class="hero-inner">
         <p class="hero-eyebrow">About Me</p>
         <h1 class="hero-headline">Atlas Zhang</h1>
-        <p class="hero-sub">Frontend · Backend · DevOps · CV Algorithm</p>
+        <p class="hero-sub">Full Stack · AI Engineer · DevOps · CV Algorithm</p>
         <div class="hero-chips">
           <span v-for="s in heroSkills" :key="s">{{ s }}</span>
         </div>
-        <a class="github-btn" href="https://github.com/Largefreedom" target="_blank" rel="noopener">
+        <a class="github-btn" href="https://github.com/Atlas-Zhang" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
           </svg>
@@ -32,7 +32,7 @@
         <div class="bio-list">
           <div class="bio-row">
             <span class="bio-key">专业方向</span>
-            <span class="bio-val">前端 React / Vue · 后端 Spring Boot / Django · 运维 · CV 算法</span>
+            <span class="bio-val">前端 React / Vue · 后端 Spring Boot / Django · 运维 · CV 算法 </span>
           </div>
           <div class="bio-row">
             <span class="bio-key">编程语言</span>
@@ -153,7 +153,7 @@
               <span class="badge badge-blue">实时换脸</span>
               <span class="badge">变声器</span>
             </div>
-            <a class="proj-github-link" href="https://github.com/Largefreedom/FaceSwap" target="_blank" rel="noopener">
+            <a class="proj-github-link" href="https://github.com/Atlas-Zhang/FaceSwap" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
               </svg>
@@ -233,7 +233,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const heroSkills = ['Python', 'Java', 'JavaScript', 'React', 'Vue', 'Spring Boot', 'Django', 'MySQL']
+const heroSkills = ['LangChain','LangGraph','Milvus','Python', 'Java', 'JavaScript', 'React', 'Vue', 'Spring Boot', 'Django', 'MySQL']
 
 const slides1 = ref(0)
 const slides2 = ref(0)
