@@ -23,7 +23,6 @@
     "read-markdown": "^1.0.2",
     "showdown": "^2.1.0",
     "swiper": "^11.1.14",
-    "vite-plugin-md": "0.10.0",
     "vue": "^3.2.47",
     "vue-markdown": "^2.2.4",
     "vue-router": "^4.1.6",
