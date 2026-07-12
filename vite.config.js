@@ -14,6 +14,7 @@ import plugin, { Mode } from 'vite-plugin-markdown'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+   publicPath: '/utils/',
   // plugins: [
   //   Vue({
   //     include: [/\.vue$/, /\.md$/], // <--
