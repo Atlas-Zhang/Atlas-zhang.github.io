@@ -6,12 +6,13 @@ on:
       - master # Change to 'main' if your default branch is main
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
-  build-and-deploy:
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -20,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: '24'
           cache: 'npm'
 
       - name: Install Dependencies
@@ -29,9 +30,14 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          folder: dist # The folder Vite outputs after building
-          branch: master # The branch the action will deploy to
-          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
