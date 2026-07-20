@@ -28,6 +28,7 @@ export const siteContent = {
       sdMini: '/sd_mini/',
       resumeWeb: '/resume_web/',
       liveSwap: '/live-swap/',
+      zerAgent: '/zer-agent/',
       aiTools: '/ai_tools/'
     }
   },
@@ -50,6 +51,7 @@ export const siteContent = {
       sdMini: 'uni-app · Vue3 · Tailwind CSS · Spring Boot · MySQL · Redis · Nginx · Ant Design Vue',
       resumeWeb: 'Vue3 · Vite · Tailwind CSS',
       liveSwap: 'Python · PyQt6 · InsightFace · SegFormer · YOLOv8 · ONNX Runtime · OpenCV · Pedalboard',
+      zerAgent: 'TypeScript · Node.js · LLM Agent · TUI · MCP · DeepSeek · OpenAI-compatible APIs',
       aiTools: 'React · Material UI · Django · Redis · ComfyUI · MySQL'
     },
     galleries: {
@@ -75,6 +77,13 @@ export const siteContent = {
         { title: { en: 'Face swapping enabled', cn: '人脸交换已开启' }, img: '1.jpg' },
         { title: { en: 'Face swap, hair swap, and voice changer enabled', cn: '换脸 + 换发 + 变声全开' }, img: '2.jpg' },
         { title: { en: 'Switch between source faces', cn: '切换不同源人脸' }, img: '4.jpg' }
+      ],
+      zerAgent: [
+        { title: { en: 'Shell command shortcut inside the chat session', cn: '会话内直接运行 Shell 快捷命令' }, img: 'shell-command.jpg' },
+        { title: { en: 'Slash commands, model, mode, session, and token status', cn: '斜杠命令、模型、模式、会话与 token 状态' }, img: 'commands.jpg' },
+        { title: { en: 'Interrupted turn with saved context and resume flow', cn: '任务中断后保存上下文并继续执行' }, img: 'resume-interrupt.jpg' },
+        { title: { en: 'Web-search assisted answer rendered in terminal', cn: '终端内渲染联网搜索辅助回答' }, img: 'web-search.jpg' },
+        { title: { en: 'Agent-generated local report and CSV export', cn: 'Agent 生成本地报告与 CSV 导出' }, img: 'export-report.jpg' }
       ],
       aiTools: [
         { title: { en: 'Home page one', cn: '首页一' }, img: '1.jpg' },
@@ -156,6 +165,16 @@ export const siteContent = {
         },
         {
           number: '04',
+          key: 'zerAgent',
+          name: 'Zer-Agent',
+          type: 'Terminal-first Coding Agent',
+          description:
+            'A local repository coding agent built as a TypeScript monorepo. It combines an LLM-driven agent loop, terminal UI, built-in file/search/shell/git/web/weather/news tools, permission controls, persistent sessions, MCP stdio integration, project commands, agent profiles, context compaction, and JSONL runtime logs.',
+          badges: ['CLI Agent', 'TypeScript Monorepo', 'MCP', 'Persistent Sessions'],
+          githubUrl: 'https://github.com/Atlas-Zhang/Zer-Agent'
+        },
+        {
+          number: '05',
           key: 'aiTools',
           name: 'Intelligent Image Toolbox',
           type: 'AI Image Processing Website',
@@ -233,6 +252,16 @@ export const siteContent = {
         },
         {
           number: '04',
+          key: 'zerAgent',
+          name: 'Zer-Agent',
+          type: '终端优先的代码 Agent',
+          description:
+            '一个面向本地代码仓库工作的 TypeScript Monorepo CLI Agent，集成 LLM 工具调用循环、终端交互 UI、文件/搜索/Shell/Git/网页搜索/天气/新闻工具、权限控制、持久化会话、MCP stdio 集成、项目命令、Agent Profile、上下文压缩与 JSONL 运行日志。',
+          badges: ['CLI Agent', 'TypeScript Monorepo', 'MCP', '持久化会话'],
+          githubUrl: 'https://github.com/Atlas-Zhang/Zer-Agent'
+        },
+        {
+          number: '05',
           key: 'aiTools',
           name: '智能图像工具箱',
           type: 'AI 图像处理网站',
