@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { _queryAiToolItems } from '@/api/items/AiToolItemApi.js'
 import { _queryAiToolTags } from '@/api/items/AiToolTagApi.js'
-import SiderBarItem from '@/components/layout/SiderBarItem.vue'
 import CardContentInfo from '@/components/card/CardContentInfo.vue'
 
 const isClickAble = ref(false)
