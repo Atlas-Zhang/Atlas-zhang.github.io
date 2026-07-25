@@ -32,26 +32,6 @@
           </svg>
         </a>
 
-        <div class="social-panel">
-          <p class="social-title">{{ content.social.title }}</p>
-          <div class="social-list">
-            <component
-              :is="socialComponent(item)"
-              v-for="item in profile.socialLinks"
-              :key="item.key"
-              class="social-link"
-              :class="{ disabled: !canOpenSocial(item) && item.type !== 'copy' }"
-              v-bind="socialAttrs(item)"
-              @click="handleSocialClick(item)"
-            >
-              <span class="social-icon">{{ item.iconText }}</span>
-              <span class="social-text">
-                <span class="social-label">{{ item.label }}</span>
-                <span class="social-value">{{ socialValue(item) }}</span>
-              </span>
-            </component>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -63,6 +43,35 @@
             <span class="bio-key">{{ item.key }}</span>
             <span class="bio-val">{{ item.value }}</span>
           </div>
+        </div>
+      </section>
+
+      <section class="block contact-block">
+        <h2 class="block-label">{{ content.social.title }}</h2>
+        <div class="contact-strip">
+          <component
+            :is="socialComponent(item)"
+            v-for="item in contactLinks"
+            :key="item.key"
+            class="contact-link"
+            :class="{ disabled: !canOpenSocial(item) && item.type !== 'copy' }"
+            v-bind="socialAttrs(item)"
+            @click="handleSocialClick(item)"
+          >
+            <span class="contact-icon">{{ item.iconText }}</span>
+            <span class="contact-label">{{ item.label }}</span>
+            <span class="contact-value">{{ socialValue(item) }}</span>
+            <svg
+              v-if="canOpenSocial(item)"
+              class="contact-arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </component>
         </div>
       </section>
 
@@ -190,6 +199,7 @@ const slideIndexes = reactive(
 )
 
 const content = computed(() => siteContent.copy[language.value])
+const contactLinks = computed(() => profile.socialLinks.filter((item) => item.key !== 'github'))
 
 function setLanguage(nextLanguage) {
   if (languages.includes(nextLanguage)) {
@@ -470,87 +480,6 @@ onMounted(async () => {
   color: #f5f5f7;
 }
 
-.social-panel {
-  margin: 26px auto 0;
-  max-width: 680px;
-}
-
-.social-title {
-  margin-bottom: 10px;
-  color: #636366;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.social-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 58px;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f5f5f7;
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-}
-
-.social-link:hover:not(.disabled) {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(41, 151, 255, 0.34);
-  transform: translateY(-1px);
-}
-
-.social-link.disabled {
-  cursor: not-allowed;
-  opacity: 0.48;
-}
-
-.social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(41, 151, 255, 0.14);
-  color: #2997ff;
-  font-size: 0.78rem;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-
-.social-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.social-label {
-  color: #f5f5f7;
-  font-size: 0.84rem;
-  font-weight: 700;
-}
-
-.social-value {
-  margin-top: 2px;
-  color: #86868b;
-  font-size: 0.72rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .main {
   max-width: 1280px;
   margin: 0 auto;
@@ -607,6 +536,86 @@ onMounted(async () => {
   font-size: 0.9375rem;
   color: #d1d1d6;
   line-height: 1.55;
+}
+
+.contact-block {
+  margin-top: -22px;
+}
+
+.contact-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  max-width: 100%;
+  padding: 7px 13px 7px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d1d6;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.contact-link:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(41, 151, 255, 0.34);
+  color: #f5f5f7;
+  transform: translateY(-1px);
+}
+
+.contact-link.disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(41, 151, 255, 0.14);
+  color: #2997ff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.contact-label {
+  color: #f5f5f7;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.contact-value {
+  max-width: 190px;
+  color: #86868b;
+  font-size: 0.76rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-arrow {
+  width: 11px;
+  height: 11px;
+  color: #636366;
+  flex-shrink: 0;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.contact-link:hover .contact-arrow {
+  color: #f5f5f7;
+  transform: translate(2px, -2px);
 }
 
 .tag-row {
@@ -913,8 +922,22 @@ onMounted(async () => {
     height: 13px;
   }
 
-  .social-list {
-    grid-template-columns: 1fr;
+  .contact-block {
+    margin-top: -14px;
+  }
+
+  .contact-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-link {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .contact-value {
+    max-width: none;
   }
 }
 </style>
