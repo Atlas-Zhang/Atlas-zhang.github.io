@@ -54,6 +54,10 @@ npm run build
 npm run lint
 ```
 
+## Requirements
+
+Make sure every code change will be versioned with git command( git add/commit etc), please aware of this requirement.
+
 ## Hook Event
 
 After each new file is created or an existing file is updated, run one Git tracking command before continuing:
