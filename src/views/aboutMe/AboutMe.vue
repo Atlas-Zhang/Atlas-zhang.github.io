@@ -31,6 +31,27 @@
             <path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
+
+        <div class="social-panel">
+          <p class="social-title">{{ content.social.title }}</p>
+          <div class="social-list">
+            <component
+              :is="socialComponent(item)"
+              v-for="item in profile.socialLinks"
+              :key="item.key"
+              class="social-link"
+              :class="{ disabled: !canOpenSocial(item) && item.type !== 'copy' }"
+              v-bind="socialAttrs(item)"
+              @click="handleSocialClick(item)"
+            >
+              <span class="social-icon">{{ item.iconText }}</span>
+              <span class="social-text">
+                <span class="social-label">{{ item.label }}</span>
+                <span class="social-value">{{ socialValue(item) }}</span>
+              </span>
+            </component>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -163,6 +184,7 @@ const assets = siteContent.assets
 const languages = siteContent.supportedLanguages
 
 const language = ref(siteContent.defaultLanguage)
+const copiedSocialKey = ref('')
 const slideIndexes = reactive(
   Object.fromEntries(siteContent.copy[siteContent.defaultLanguage].projects.map((project) => [project.key, 0]))
 )
@@ -203,6 +225,70 @@ function localizedGallery(projectKey) {
 
 function projectImageSrc(projectKey, imageName) {
   return `${assets.projects[projectKey]}${imageName}`
+}
+
+function canOpenSocial(item) {
+  return item.type === 'external' && Boolean(item.href)
+}
+
+function socialComponent(item) {
+  return canOpenSocial(item) ? 'a' : 'button'
+}
+
+function socialAttrs(item) {
+  if (canOpenSocial(item)) {
+    return {
+      href: item.href,
+      target: '_blank',
+      rel: 'noopener'
+    }
+  }
+
+  return {
+    type: 'button',
+    disabled: item.type !== 'copy'
+  }
+}
+
+function socialValue(item) {
+  if (copiedSocialKey.value === item.key) {
+    return content.value.social.copiedLabel
+  }
+
+  if (item.type === 'copy') {
+    return `${content.value.social.copyLabel} ${item.value}`
+  }
+
+  return item.href ? item.value : content.value.social.unavailableLabel
+}
+
+async function handleSocialClick(item) {
+  if (item.type !== 'copy') return
+
+  await copyText(item.value)
+  copiedSocialKey.value = item.key
+  window.setTimeout(() => {
+    if (copiedSocialKey.value === item.key) {
+      copiedSocialKey.value = ''
+    }
+  }, 1800)
+}
+
+async function copyText(value) {
+  if (navigator.clipboard) {
+    await navigator.clipboard.writeText(value)
+    return
+  }
+
+  const textarea = document.createElement('textarea')
+  textarea.value = value
+  textarea.setAttribute('readonly', '')
+  textarea.style.position = 'fixed'
+  textarea.style.opacity = '0'
+  document.body.appendChild(textarea)
+  textarea.select()
+  document.execCommand('copy')
+  document.body.removeChild(textarea)
 }
 
 function moveSlide(projectKey, direction) {
@@ -382,6 +468,87 @@ onMounted(async () => {
 .proj-github-link:hover .proj-link-arrow {
   transform: translate(2px, -2px);
   color: #f5f5f7;
+}
+
+.social-panel {
+  margin: 26px auto 0;
+  max-width: 680px;
+}
+
+.social-title {
+  margin-bottom: 10px;
+  color: #636366;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.social-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f5f5f7;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.social-link:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(41, 151, 255, 0.34);
+  transform: translateY(-1px);
+}
+
+.social-link.disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(41, 151, 255, 0.14);
+  color: #2997ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.social-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.social-label {
+  color: #f5f5f7;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.social-value {
+  margin-top: 2px;
+  color: #86868b;
+  font-size: 0.72rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .main {
@@ -744,6 +911,10 @@ onMounted(async () => {
   .nav-btn svg {
     width: 13px;
     height: 13px;
+  }
+
+  .social-list {
+    grid-template-columns: 1fr;
   }
 }
 </style>

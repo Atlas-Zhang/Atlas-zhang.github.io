@@ -16,7 +16,32 @@ export const siteContent = {
   profile: {
     name: 'Atlas Zhang',
     githubUrl: 'https://github.com/Atlas-Zhang',
-    contactWechat: 'a460467324'
+    contactWechat: 'a460467324',
+    socialLinks: [
+      {
+        key: 'github',
+        iconText: 'GH',
+        label: 'GitHub',
+        type: 'external',
+        href: 'https://github.com/Atlas-Zhang',
+        value: '@Atlas-Zhang'
+      },
+      {
+        key: 'linkedin',
+        iconText: 'in',
+        label: 'LinkedIn',
+        type: 'external',
+        href: 'https://www.linkedin.com/in/atlas-zhang-b53b42308/',
+        value: 'Atlas-Zhang'
+      },
+      {
+        key: 'wechat',
+        iconText: 'WX',
+        label: 'WeChat',
+        type: 'copy',
+        value: 'a460467324'
+      }
+    ]
   },
   assets: {
     sdQrCode: '/sd_qr_code.jpg',
@@ -29,6 +54,7 @@ export const siteContent = {
       resumeWeb: '/resume_web/',
       liveSwap: '/live-swap/',
       zerAgent: '/zer-agent/',
+      wrTool: '/wr-tool/',
       aiTools: '/ai_tools/'
     }
   },
@@ -52,6 +78,7 @@ export const siteContent = {
       resumeWeb: 'Vue3 · Vite · Tailwind CSS',
       liveSwap: 'Python · PyQt6 · InsightFace · SegFormer · YOLOv8 · ONNX Runtime · OpenCV · Pedalboard',
       zerAgent: 'TypeScript · Node.js · LLM Agent · TUI · MCP · DeepSeek · OpenAI-compatible APIs',
+      wrTool: 'Vue 3 · TypeScript · Vite · Markdown-it · DOMPurify · Supabase Auth · Supabase Storage',
       aiTools: 'React · Material UI · Django · Redis · ComfyUI · MySQL'
     },
     galleries: {
@@ -85,6 +112,15 @@ export const siteContent = {
         { title: { en: 'Web-search assisted answer rendered in terminal', cn: '终端内渲染联网搜索辅助回答' }, img: 'web-search.jpg' },
         { title: { en: 'Agent-generated local report and CSV export', cn: 'Agent 生成本地报告与 CSV 导出' }, img: 'export-report.jpg' }
       ],
+      wrTool: [
+        { title: { en: 'Live Markdown editor with toolbar, counts, and autosave state', cn: '带工具栏、统计与自动保存状态的实时 Markdown 编辑器' }, img: 'editor-live-markdown.jpg' },
+        { title: { en: 'Private draft list with quick article creation', cn: '私有草稿列表与快速新建文章' }, img: 'articles.jpg' },
+        { title: { en: 'Theme settings with custom Markdown CSS editor', cn: '主题设置与自定义 Markdown CSS 编辑器' }, img: 'theme-css.jpg' },
+        { title: { en: 'Markdown style templates, font upload, and live preview', cn: 'Markdown 样式模板、字体上传与实时预览' }, img: 'style-templates.jpg' },
+        { title: { en: 'Writing statistics with yearly activity heatmap', cn: '带年度活动热力图的写作统计' }, img: 'stats.jpg' },
+        { title: { en: 'Image gallery with uploads, camera capture, and month filtering', cn: '支持上传、拍照与月份筛选的图片库' }, img: 'gallery.jpg' },
+        { title: { en: 'Supabase OAuth login with GitHub and Google', cn: '基于 Supabase 的 GitHub 与 Google OAuth 登录' }, img: 'login.jpg' }
+      ],
       aiTools: [
         { title: { en: 'Home page one', cn: '首页一' }, img: '1.jpg' },
         { title: { en: 'Home page two', cn: '首页二' }, img: '2.jpg' },
@@ -102,6 +138,12 @@ export const siteContent = {
         eyebrow: 'About Me',
         subtitle: 'Full Stack · AI Engineer · DevOps · CV Algorithm',
         githubLabel: 'GitHub'
+      },
+      social: {
+        title: 'Contact',
+        copyLabel: 'Copy',
+        copiedLabel: 'Copied',
+        unavailableLabel: 'Coming soon'
       },
       aria: {
         languageSwitch: 'Language switch',
@@ -175,6 +217,16 @@ export const siteContent = {
         },
         {
           number: '05',
+          key: 'wrTool',
+          name: 'WrTool',
+          type: 'Private Markdown Writing App',
+          description:
+            'A private writing app built with Vue 3, TypeScript, Markdown, and Supabase. It supports GitHub/Google OAuth, per-user drafts and archives, live Markdown editing, source mode, outline/focus/typewriter workflows, custom Markdown CSS, reusable style templates, font uploads, image storage/gallery reuse, autosave buffering, and writing statistics.',
+          badges: ['Writing App', 'Markdown Editor', 'Supabase', 'Image Gallery'],
+          githubUrl: 'https://github.com/Atlas-Zhang/WrTool'
+        },
+        {
+          number: '06',
           key: 'aiTools',
           name: 'Intelligent Image Toolbox',
           type: 'AI Image Processing Website',
@@ -189,6 +241,12 @@ export const siteContent = {
         eyebrow: '关于我',
         subtitle: '全栈 · AI 工程师 · DevOps · CV 算法',
         githubLabel: 'GitHub'
+      },
+      social: {
+        title: '社交联系',
+        copyLabel: '复制',
+        copiedLabel: '已复制',
+        unavailableLabel: '待添加'
       },
       aria: {
         languageSwitch: '语言切换',
@@ -262,6 +320,16 @@ export const siteContent = {
         },
         {
           number: '05',
+          key: 'wrTool',
+          name: 'WrTool',
+          type: '私有 Markdown 写作应用',
+          description:
+            '一个基于 Vue 3、TypeScript、Markdown 与 Supabase 构建的私有写作工具，支持 GitHub/Google OAuth、用户私有草稿与归档、实时 Markdown 编辑、源码模式、大纲/专注/打字机模式、自定义 Markdown CSS、样式模板、字体上传、图片存储与图库复用、本地缓冲自动保存和写作统计。',
+          badges: ['写作工具', 'Markdown 编辑器', 'Supabase', '图片库'],
+          githubUrl: 'https://github.com/Atlas-Zhang/WrTool'
+        },
+        {
+          number: '06',
           key: 'aiTools',
           name: '智能图像工具箱',
           type: 'AI 图像处理网站',
